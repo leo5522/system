@@ -1,0 +1,96 @@
+package com.example;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.example.domain.Company;
+
+import java.time.LocalDateTime;
+
+public class CompanyRecruitmentVo extends Company {
+    /**
+     * 主键
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
+    /**
+     * 外键
+     */
+    @TableField(value = "company_id")
+    private Integer companyId;
+
+    /**
+     * 企业名称
+     */
+    private String cname;
+
+    /**
+     * 职位分类
+     */
+    private String career;
+
+    /**
+     * 职位名称
+     */
+    private String job;
+
+    /**
+     * 最低薪资
+     */
+    private Double minsalary;
+
+    /**
+     * 最高薪资
+     */
+    private Double maxsalary;
+
+    /**
+     * 工作经验
+     */
+    private String experience;
+
+    /**
+     * 学历要求
+     */
+    private String education;
+
+    /**
+     * 工作地点
+     */
+    private String workplace;
+
+    /**
+     * 工作内容
+     */
+    private String description;
+
+    /**
+     * 负责人
+     */
+    private String principal;
+
+    /**
+     * 联系电话
+     */
+    private String phone;
+
+    /**
+     * 审核状态
+     */
+    private Integer status;
+
+    /**
+     * 点击次数
+     */
+    @TableField(value = "click_count")
+    private Integer clickCount;
+
+    /**
+     * 发布时间
+     */
+    @TableField(value = "create_time")
+    private LocalDateTime createTime;
+
+
+}

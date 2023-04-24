@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.ml-5{
+    margin-left: 5px;
+}
+.mr-5{
+    margin-right: 5px;
+}
+.pd-10{
+    padding: 10px 0;
+}
+.bordered-img {
+    border: 1px solid black; /* 定义边框样式 */
+    padding: 2px; /* 在边框和图片之间留出一些空间 */
+}
