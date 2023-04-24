@@ -1,7 +1,10 @@
 package com.example.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.domain.Company;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CompanyService extends IService<Company> {
 
+
+    /**
+     * 根据userid 查询用户下企业
+     * @return
+     */
+    Company getCompany(Company company);
 }
