@@ -41,5 +41,21 @@ public class CompanyController {
         return Result.success(one);
     }
 
+
+    /**
+     * 企业认证
+     * @param company
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Company company){
+
+        boolean bool = companyService.save(company);
+
+        return bool?Result.success():Result.error();
+    }
+
+
+
 }
 
