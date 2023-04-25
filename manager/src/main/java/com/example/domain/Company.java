@@ -163,4 +163,14 @@ public class Company  extends PageEntity implements Serializable  {
     private LocalDateTime createTime;
 
 
+    /**
+     * 营业期限开始时间
+     */
+    private String businessdeadlinestartdate;
+
+    /**
+     * 营业期限结束时间
+     */
+    private String businessdeadlineenddate;
+
 }

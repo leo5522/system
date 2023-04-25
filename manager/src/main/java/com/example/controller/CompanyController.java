@@ -4,6 +4,7 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.common.Constants;
 import com.example.common.Result;
 import com.example.domain.Company;
 import com.example.service.CompanyService;
@@ -37,6 +38,8 @@ public class CompanyController {
      */
     @PostMapping("/getCompany")
     public Result getCompany(Company company){
+        //TODO：替换userid
+        company.setUserId(31);
         Company one = companyService.getCompany(company);
         return Result.success(one);
     }
@@ -49,9 +52,14 @@ public class CompanyController {
      */
     @PostMapping("/save")
     public Result save(@RequestBody Company company){
-
+        //TODO：替换userid
+        company.setUserId(31);
+        Company byId = companyService.getById(company.getUserId());
+        if (byId.getStatus() == 0){
+            return Result.error(Constants.CODE_400,"企业正在审核中");
+        }
+        company.setStatus(0);
         boolean bool = companyService.save(company);
-
         return bool?Result.success():Result.error();
     }
 

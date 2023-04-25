@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
    driver-class-name: com.mysql.cj.jdbc.Driver
-   url: jdbc:mysql://localhost:3306/ucareer?serverTimezone=GMT%2b8
+   url: jdbc:mysql://8.130.96.100:3306/ucareer?serverTimezone=GMT%2b8
    username: root
-   password: 12345678
+   password: 1234
   web:
     resources:
       static-locations: classpath:/static/
@@ -17,4 +17,20 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
+
+app:
+  upload:
+    dir: D:/upload
+    urlPrefix: http://localhost:9090/upload/
+
+
+sa-token:
+  token-name: companyToken
+  timeout: 2592000
+  activity-timeout: -1
+  is-concurrent: false
+  is-share: true
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
 
