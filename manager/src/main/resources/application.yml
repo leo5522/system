@@ -24,3 +24,13 @@ app:
     urlPrefix: http://localhost:9090/upload/
 
 
+sa-token:
+  token-name: companyToken
+  timeout: 2592000
+  activity-timeout: -1
+  is-concurrent: false
+  is-share: true
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+
