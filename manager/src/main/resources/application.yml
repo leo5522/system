@@ -18,3 +18,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
 
+app:
+  upload:
+    dir: /upload/
+
