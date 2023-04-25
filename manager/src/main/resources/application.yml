@@ -20,5 +20,7 @@ mybatis-plus:
 
 app:
   upload:
-    dir: /upload/
+    dir: D:/upload
+    urlPrefix: http://localhost:8080/upload/
+
 

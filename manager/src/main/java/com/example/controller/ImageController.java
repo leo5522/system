@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import cn.hutool.json.JSONObject;
 import com.example.common.Constants;
 import com.example.common.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -18,11 +19,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/images")
+@CrossOrigin
 public class ImageController {
 
 
     @Value("${app.upload.dir}")
     private String uploadDir;
+
+    @Value("${app.upload.urlPrefix}")
+    private String urlPrefix;
 
 
     @PostMapping("/upload")
@@ -39,9 +44,11 @@ public class ImageController {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(uploadDir + File.separator + fileName);
             Files.write(path, bytes);
-
+            JSONObject json = new JSONObject();
+            json.set("filename",fileName);
+            json.set("url",urlPrefix + fileName);
             // 返回成功响应
-            return Result.success(fileName);
+            return Result.success(json);
 
         } catch (IOException e) {
             String errorMessage = ExceptionUtils.getRootCauseMessage(e);
