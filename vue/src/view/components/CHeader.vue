@@ -3,14 +3,15 @@
   <div class="navbar">
     <el-menu background-color="#409eff" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" router="true" class="el-menu">
       <el-menu-item index="/chomefirst">首页</el-menu-item>
-      <el-menu-item index="/recruitinfo">招聘信息</el-menu-item>
+      <el-menu-item index="/recruitment-index">招聘信息</el-menu-item>
       <el-menu-item index="/resumesearch">简历库</el-menu-item>
-      <el-menu-item index="/myrecruitment">我的招聘</el-menu-item>
+      <!-- <el-menu-item index="/myrecruitment">我的招聘</el-menu-item> -->
       <el-menu-item index="/personnelmarket">人才市场</el-menu-item>
       <el-submenu index="myrecruitment">
         <template slot="title">我的企业</template>
-        <el-menu-item index="companyinfo">企业简介</el-menu-item>
-        <el-menu-item index="company-edit">企业认证</el-menu-item>
+        <el-menu-item index="company-index">企业信息</el-menu-item>
+        <el-menu-item index="company-edit">修改企业信息</el-menu-item>
+        <el-menu-item index="company-add">企业认证</el-menu-item>
       </el-submenu>
       <div class="user">
         <el-dropdown>

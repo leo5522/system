@@ -168,7 +168,7 @@
       </el-row>
     </el-form>
     <div class="footer">
-      <el-button type="primary" size="big" @click="submitForm('form')">提交修改</el-button>
+      <el-button type="primary" size="big" @click="submitForm('form')">提交认证</el-button>
       <el-button size="big" @click="resetForm('form')">重置</el-button>
     </div>
   </div>
@@ -328,14 +328,14 @@ export default {
   margin-left: 10px;
 }
 
+::v-deep(.el-input) {
+  width: 250px;
+}
 .flex {
   display: flex;
 }
 .footer {
   margin: 20px 0;
   text-align: center;
-}
-::v-deep(.el-input) {
-  width: 250px;
 }
 </style>
