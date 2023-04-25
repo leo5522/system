@@ -38,7 +38,7 @@ public class CompanyController {
      */
     @PostMapping("/getCompany")
     public Result getCompany(Company company){
-        // 登录页面完成后删除
+        //TODO：替换userid
         company.setUserId(31);
         Company one = companyService.getCompany(company);
         return Result.success(one);
@@ -52,7 +52,7 @@ public class CompanyController {
      */
     @PostMapping("/save")
     public Result save(@RequestBody Company company){
-        // 登录页面完成后删除
+        //TODO：替换userid
         company.setUserId(31);
         Company byId = companyService.getById(company.getUserId());
         if (byId.getStatus() == 0){

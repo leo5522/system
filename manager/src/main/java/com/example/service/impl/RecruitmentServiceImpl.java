@@ -1,5 +1,7 @@
 package com.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.CompanyRecruitmentVo;
 import com.example.domain.Recruitment;
@@ -36,5 +38,13 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentDao, Recruitm
      */
     public Page<CompanyRecruitmentVo> getAllRecruitmentByCondition(Page<CompanyRecruitmentVo> page, String career, String education, String workplace){
         return page.setRecords(recruitmentDao.selectAllRecruitmentByCondition(page,career,education,workplace));
+    }
+
+    @Override
+    public IPage<Recruitment> getRecruitmentServerList(Integer userId, Integer pageNum, Integer pageSize) {
+        Page<Recruitment> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<Recruitment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId);
+        return recruitmentDao.selectPage(page,queryWrapper);
     }
 }
