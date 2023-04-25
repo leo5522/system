@@ -41,15 +41,15 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentDao, Recruitm
     }
 
     @Override
-    public IPage<Recruitment> getRecruitmentServerList(Recruitment recruitment, Integer pageNum, Integer pageSize) {
+    public IPage<Recruitment> getRecruitmentServerList(String jobtype,String career, Integer pageNum, Integer pageSize) {
         Page<Recruitment> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Recruitment> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("company_id",recruitment.getCompanyId());
-        if(!recruitment.getCareer().equals("")){
-            queryWrapper.like("career",recruitment.getCareer());
+        queryWrapper.eq("company_id",2);
+        if(!jobtype.equals("") || jobtype == null){
+            queryWrapper.like("jobtype",jobtype);
         }
-        if (!recruitment.getJobtype().equals("")){
-            queryWrapper.like("jobtype",recruitment.getJobtype());
+        if (!career.equals("") || career == null){
+            queryWrapper.like("career",career);
         }
         return recruitmentDao.selectPage(page,queryWrapper);
     }

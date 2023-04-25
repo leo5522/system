@@ -16,7 +16,7 @@
         <el-select size="normal" style="width: 250px; margin-right: 10px" class="input" v-model="jobtype" placeholder="请选择职位分类">
           <el-option v-for="item in jobtypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-button size="normal" type="primary">搜索</el-button>
+        <el-button size="normal" type="primary" @click="reloadTable">搜索</el-button>
       </div>
     </div>
     <el-table ref="multipleTable" :data="tableData" size="normal" style="width: 100%">
@@ -56,6 +56,8 @@
 
 <script>
 import AddEditDialog from './components/AddEditDialog.vue';
+import { getRecruitmentList } from '@/api/recruitment';
+
 export default {
   components: {
     AddEditDialog,
@@ -99,50 +101,7 @@ export default {
         3: '审核未通过',
         4: '下架',
       },
-      tableData: [
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-        {
-          career: '前端开发',
-          jobtype: 1,
-          status: 1,
-          phone: 15012451254,
-          create_time: '2023-12-02',
-        },
-      ],
+      tableData: [],
       columns: [
         {
           title: '职位名称',
@@ -162,7 +121,7 @@ export default {
         {
           title: '发布时间',
           show: true,
-          dataIndex: 'create_time',
+          dataIndex: 'createTime',
         },
         {
           title: '状态',
@@ -189,8 +148,22 @@ export default {
       },
     };
   },
+  mounted() {
+    this.reloadTable();
+  },
   methods: {
-    reloadTable() {},
+    reloadTable() {
+      let obj = {
+        pageNum: this.pagination.current,
+        pageSize: this.pagination.pageSize,
+        career: this.career,
+        jobtype: this.jobtype,
+      };
+      getRecruitmentList(obj).then((res) => {
+        this.tableData = res.data.records;
+        this.pagination.total=res.data.total
+      });
+    },
     // 新增
     addRecruitment() {
       this.$refs.addEditDialog.dialogVisible = true;

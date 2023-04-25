@@ -25,7 +25,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("recruitment")
-public class Recruitment extends PageEntity implements Serializable {
+public class Recruitment implements Serializable {
 
     private static final long serialVersionUID=1L;
 

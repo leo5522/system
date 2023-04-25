@@ -83,6 +83,7 @@
 <script>
 import { BUSINESS_RELATIVE, ORG_STATUS } from '@/config/dict.js';
 import { isMobile } from '@/utils/validate';
+import { addRecruitmentDetail } from '@/api/recruitment';
 
 export default {
   props: {
@@ -95,7 +96,7 @@ export default {
     dialogVisible(val) {
       if (val) {
         // this.initSponsorArrangeList();
-        // this.initDataForm();
+        // this.initRecruitment();
       }
     },
   },
@@ -184,9 +185,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          addRecruitmentDetail(this.form).then((res) => {});
         } else {
-          console.log('error submit!!');
           return false;
         }
       });

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-form ref="form" :model="form" :rules="rules" label-width="150px">
+    <el-form ref="form" :model="form" label-width="150px">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="企业名称" prop="company_name">
@@ -151,7 +151,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="企业logo" prop="logo">
-            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :limit="1" :file-list="form.logo">
+            <el-upload class="upload-demo" action="http://localhost:9090/images/upload" :limit="1" :file-list="logo" :on-success="upload1">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -160,7 +160,7 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="营业执照" prop="license">
-            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :limit="1" :file-list="form.license">
+            <el-upload class="upload-demo" action="http://localhost:9090/images/upload" :limit="1" :file-list="license" :on-success="upload2">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -177,7 +177,7 @@
 <script>
 import { BUSINESS_RELATIVE, ORG_STATUS } from '@/config/dict.js';
 import { isMobile, isUnifiedSocialCreditCode } from '@/utils/validate';
-import { getUserInfo } from '@/api/company';
+import { getCompanyDetail, saveCompanyDetail } from '@/api/company';
 
 export default {
   data() {
@@ -234,9 +234,9 @@ export default {
         number: '',
         code: '',
         approval_date: '',
-        logo: [],
-        license: [],
       },
+      logo: [],
+      license: [],
       rules: {
         company_name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
         uscc: [{ validator: validateSocialCreditCode, required: true, trigger: 'blur' }],
@@ -277,15 +277,35 @@ export default {
       },
     };
   },
+  mounted() {
+    this.initCompany();
+  },
   methods: {
-    init() {
-      getUserInfo().then((res) => {
+    // 初始化企业信息
+    initCompany() {
+      getCompanyDetail().then((res) => {
         if (res.code === 0 || res.code === '0') {
-          Cookies.set('userInfo', JSON.stringify(res.data));
+          console.log(res);
         }
       });
     },
-
+    // 图片上传
+    upload1(file) {
+      let obj = {
+        name: file.data.filename,
+        url: file.data.url,
+      };
+      this.logo = [];
+      this.logo.push(obj);
+    },
+    upload2(file) {
+      let obj = {
+        name: file.data.filename,
+        url: file.data.url,
+      };
+      this.license = [];
+      this.license.push(obj);
+    },
     // 更改营业期限设置时间选择的禁选值
     startDisabledDate(time) {
       if (this.form.businessDeadlineEndDate) {
@@ -307,7 +327,10 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.form.logo = this.logo[0].name;
+          this.form.license = this.license[0].name;
+          console.log(this.form);
+          // saveCompanyDetail({}).then((res) => {});
         } else {
           console.log('error submit!!');
           return false;
