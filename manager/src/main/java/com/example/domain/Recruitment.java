@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.example.common.PageEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,7 +25,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("recruitment")
-public class Recruitment implements Serializable {
+public class Recruitment extends PageEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -41,17 +44,17 @@ public class Recruitment implements Serializable {
     /**
      * 企业名称
      */
-    private String cname;
-
-    /**
-     * 职位分类
-     */
-    private String career;
+    private String companyName;
 
     /**
      * 职位名称
      */
-    private String job;
+    private String career;
+
+    /**
+     * 兼职/全职or长期/短期
+     */
+    private String jobtype;
 
     /**
      * 最低薪资
@@ -108,6 +111,7 @@ public class Recruitment implements Serializable {
      * 发布时间
      */
     @TableField(value = "create_time")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDateTime createTime;
 
 

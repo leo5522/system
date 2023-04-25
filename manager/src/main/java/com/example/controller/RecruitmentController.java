@@ -23,6 +23,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/recruitment")
+@CrossOrigin
 public class RecruitmentController {
     @Resource
     private RecruitmentServiceImpl recruitmentService;
@@ -93,9 +94,9 @@ public class RecruitmentController {
     }
 
     @GetMapping("/all")
-    public IPage<Recruitment> all (@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+    public IPage<Recruitment> all (@RequestBody Recruitment recruitment){
         //TODO：替换company_id
-        IPage<Recruitment> page = recruitmentService.getRecruitmentServerList(31,pageNum, pageSize);
+        IPage<Recruitment> page = recruitmentService.getRecruitmentServerList(recruitment,recruitment.getPageNum(), recruitment.getPageSize());
         return page;
     }
 
