@@ -76,7 +76,8 @@ public class RecruitmentController {
      */
     @PostMapping
     public Result deleteRecruitment(@RequestBody Recruitment recruitment){
-        boolean bool = recruitmentService.removeById(recruitment.getId());
+        recruitment.setStatus(4);
+        boolean bool = recruitmentService.updateById(recruitment);
         return bool?Result.success():Result.error();
     }
 
