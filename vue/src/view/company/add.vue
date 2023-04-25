@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-content">
+  <div class="content">
     <el-form ref="form" :model="form" :rules="rules" label-width="150px">
       <el-row :gutter="30">
         <el-col :span="12">
@@ -168,8 +168,8 @@
       </el-row>
     </el-form>
     <div class="footer">
-      <el-button type="primary" size="big" @click="submitForm('form')">提交认证</el-button>
       <el-button size="big" @click="resetForm('form')">重置</el-button>
+      <el-button type="primary" size="big" @click="submitForm('form')">提交认证</el-button>
     </div>
   </div>
 </template>
@@ -177,6 +177,7 @@
 <script>
 import { BUSINESS_RELATIVE, ORG_STATUS } from '@/config/dict.js';
 import { isMobile, isUnifiedSocialCreditCode } from '@/utils/validate';
+import { getUserInfo } from '@/api/company';
 
 export default {
   data() {
@@ -252,7 +253,10 @@ export default {
           { required: true, trigger: 'blur', message: '请输入实缴资本' },
         ],
         legalperson: [{ required: true, message: '请输入法定代表人', trigger: 'blur' }],
-        company_phone: [{ validator: validateCellMobile, trigger: 'blur' }],
+        company_phone: [
+          { validator: validateCellMobile, trigger: 'blur' },
+          { required: true, trigger: 'blur', message: '请输入手机号码' },
+        ],
         establish_date: [{ required: true, message: '请选择成立日期', trigger: 'blur' }],
         businessDeadlineStartDate: [{ required: true, message: '请选择营业开始日期', trigger: 'blur' }],
         authority: [{ required: true, message: '请输入登记机关', trigger: 'blur' }],
@@ -274,6 +278,14 @@ export default {
     };
   },
   methods: {
+    init() {
+      getUserInfo().then((res) => {
+        if (res.code === 0 || res.code === '0') {
+          Cookies.set('userInfo', JSON.stringify(res.data));
+        }
+      });
+    },
+
     // 更改营业期限设置时间选择的禁选值
     startDisabledDate(time) {
       if (this.form.businessDeadlineEndDate) {
@@ -311,7 +323,7 @@ export default {
 </script>
 
 <style scoped>
-.edit-content {
+.content {
   max-width: 1200px;
   margin: 0 auto;
   border-radius: 4px;

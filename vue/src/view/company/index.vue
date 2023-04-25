@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-content">
+  <div class="content">
     <el-form ref="form" disabled :model="form" label-width="150px">
       <el-row :gutter="30">
         <el-col :span="12">
@@ -231,7 +231,7 @@ export default {
 </script>
 
 <style scoped>
-.edit-content {
+.content {
   max-width: 1200px;
   margin: 0 auto;
   border-radius: 4px;
