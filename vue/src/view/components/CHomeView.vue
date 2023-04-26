@@ -2,7 +2,6 @@
   <div>
     <!-- 导航栏 -->
     <Header />
-
     <el-main>
       <router-view />
     </el-main>

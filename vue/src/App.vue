@@ -1,10 +1,16 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 <style>
-#app{
+#app {
+}
+.el-range-input {
+  cursor: pointer;
+}
 
+.el-input__inner {
+  cursor: pointer;
 }
 </style>

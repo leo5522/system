@@ -12,7 +12,7 @@ request.interceptors.request.use(
     config => {
         config.headers['Content-Type'] = 'application/json;charset=utf-8';
 
-        // config.headers['token'] = user.token;  // 设置请求头
+        // config.headers['token'] = localStorage.getItem("");  // 设置请求头
         return config
     }, error => {
         return Promise.reject(error)
@@ -22,7 +22,7 @@ request.interceptors.request.use(
 // 可以在接口响应后统一处理结果
 request.interceptors.response.use(
     response => {
-        let res = response.data;
+        let res = response;
         // 如果是返回的文件
         if (response.config.responseType === 'blob') {
             return res

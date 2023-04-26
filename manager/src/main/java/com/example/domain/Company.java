@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("company")
-public class Company  extends PageEntity implements Serializable  {
+public class Company implements Serializable  {
 
     private static final long serialVersionUID=1L;
 
@@ -111,15 +111,9 @@ public class Company  extends PageEntity implements Serializable  {
      */
     private String uscc;
 
-    /**
-     * 参保人数
-     */
-    private String insured;
 
-    /**
-     * 营业期限
-     */
-    private String duration;
+
+
 
     /**
      * 登记机关

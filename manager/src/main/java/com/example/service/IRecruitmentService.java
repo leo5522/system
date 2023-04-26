@@ -20,5 +20,5 @@ public interface IRecruitmentService extends IService<Recruitment> {
      * @param pageSize
      * @return
      */
-    IPage<Recruitment> getRecruitmentServerList(Recruitment recruitment,Integer pageNum, Integer pageSize);
+    IPage<Recruitment> getRecruitmentServerList(String jobtype,String career,Integer pageNum, Integer pageSize);
 }

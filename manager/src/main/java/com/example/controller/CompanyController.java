@@ -40,7 +40,8 @@ public class CompanyController {
     public Result getCompany(Company company){
         //TODO：替换userid
         company.setUserId(31);
-        Company one = companyService.getCompany(company);
+        company.setUserId(31);
+        Company one = companyService.getById(company.getUserId());
         return Result.success(one);
     }
 

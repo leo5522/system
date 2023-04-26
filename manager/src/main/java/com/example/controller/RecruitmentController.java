@@ -67,6 +67,8 @@ public class RecruitmentController {
     @PostMapping("/save")
     public Result save (@RequestBody Recruitment recruitment){
         //TODO：替换company_id
+        recruitment.setCompanyId(2);
+        recruitment.setCompanyName("1229 company");
         boolean bool = recruitmentService.save(recruitment);
         return bool?Result.success():Result.error();
     }
@@ -95,9 +97,10 @@ public class RecruitmentController {
     }
 
     @GetMapping("/all")
-    public IPage<Recruitment> all (@RequestBody Recruitment recruitment){
+    public IPage<Recruitment> all (@RequestParam("pageNum") int pageNum,@RequestParam("pageSize") int pageSize,@RequestParam("career") String career,@RequestParam("jobtype") String jobtype ){
         //TODO：替换company_id
-        IPage<Recruitment> page = recruitmentService.getRecruitmentServerList(recruitment,recruitment.getPageNum(), recruitment.getPageSize());
+        Recruitment recruitment = new Recruitment();
+        IPage<Recruitment> page = recruitmentService.getRecruitmentServerList(jobtype,career,pageNum, pageSize);
         return page;
     }
 

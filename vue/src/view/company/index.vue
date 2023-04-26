@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-form ref="form" :model="form" :rules="rules" label-width="150px">
+    <el-form ref="form" disabled :model="form" label-width="150px">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="企业名称" prop="company_name">
@@ -88,25 +88,9 @@
         <el-col :span="12">
           <el-form-item label="营业期限" prop="businessDeadlineStartDate">
             <div class="flex">
-              <el-date-picker
-                clearable
-                v-model="form.businessDeadlineStartDate"
-                :disabledDate="startDisabledDate"
-                size="small"
-                type="date"
-                placeholder="开始日期"
-                @change="handleStartTime"
-              ></el-date-picker>
+              <el-date-picker clearable v-model="form.businessDeadlineStartDate" size="small" type="date" placeholder="开始日期"></el-date-picker>
               <span style="margin: 0 10px">至</span>
-              <el-date-picker
-                clearable
-                v-model="form.businessDeadlineEndDate"
-                size="small"
-                :disabledDate="endDisabledDate"
-                type="date"
-                placeholder="无固定期限"
-                @change="handleEndTime"
-              ></el-date-picker>
+              <el-date-picker clearable v-model="form.businessDeadlineEndDate" size="small" type="date" placeholder="无固定期限"></el-date-picker>
             </div>
           </el-form-item>
         </el-col>
@@ -167,10 +151,6 @@
         </el-col>
       </el-row>
     </el-form>
-    <div class="footer">
-      <el-button size="big" @click="resetForm('form')">重置</el-button>
-      <el-button type="primary" size="big" @click="submitForm('form')">提交修改</el-button>
-    </div>
   </div>
 </template>
 
@@ -236,36 +216,6 @@ export default {
         logo: [],
         license: [],
       },
-      rules: {
-        company_name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-        uscc: [{ validator: validateSocialCreditCode, required: true, trigger: 'blur' }],
-        company_type: [{ required: true, message: '请选择企业类型', trigger: 'blur' }],
-        industry: [{ required: true, message: '请选择所属行业', trigger: 'blur' }],
-        address: [{ required: true, message: '请输入企业地址', trigger: 'blur' }],
-        company_email: [{ required: true, message: '请输入企业邮箱', trigger: 'blur' }],
-        capital: [
-          { validator: validateNum, trigger: 'blur' },
-          { required: true, trigger: 'blur', message: '请输入实缴资本' },
-        ],
-        paid_in: [
-          { validator: validateNum, trigger: 'blur' },
-          { required: true, trigger: 'blur', message: '请输入实缴资本' },
-        ],
-        legalperson: [{ required: true, message: '请输入法定代表人', trigger: 'blur' }],
-        company_phone: [
-          { validator: validateCellMobile, trigger: 'blur' },
-          { required: true, trigger: 'blur', message: '请输入手机号码' },
-        ],
-        establish_date: [{ required: true, message: '请选择成立日期', trigger: 'blur' }],
-        businessDeadlineStartDate: [{ required: true, message: '请选择营业开始日期', trigger: 'blur' }],
-        authority: [{ required: true, message: '请输入登记机关', trigger: 'blur' }],
-        staff_size: [{ required: true, message: '请输入人员规模', trigger: 'blur' }],
-        number: [{ required: true, message: '请输入工商注册号', trigger: 'blur' }],
-        code: [{ required: true, message: '请输入组织机构代码', trigger: 'blur' }],
-        approval_date: [{ required: true, message: '请选择核准日期', trigger: 'blur' }],
-        logo: [{ required: true, message: '请上传企业logo', trigger: 'change' }],
-        license: [{ required: true, message: '请上传营业执照', trigger: 'change' }],
-      },
       // 企业类型
       orgTypeList: ORG_STATUS,
       // 行业
@@ -276,40 +226,7 @@ export default {
       },
     };
   },
-  methods: {
-    // 更改营业期限设置时间选择的禁选值
-    startDisabledDate(time) {
-      if (this.form.businessDeadlineEndDate) {
-        return time.getTime() > this.form.businessDeadlineEndDate.getTime() - 8.64e7;
-      }
-    },
-    endDisabledDate(time) {
-      if (this.form.businessDeadlineStartDate) {
-        return time.getTime() < this.form.businessDeadlineStartDat.getTime() + 8.64e7;
-      }
-    },
-    handleStartTime(startTime) {
-      this.form.businessDeadlineStartDat = startTime;
-    },
-    handleEndTime(endTime) {
-      this.form.businessDeadlineEndDate = endTime;
-    },
-    // 提交企业认证
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-    },
-    // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -331,14 +248,14 @@ export default {
   margin-left: 10px;
 }
 
+::v-deep(.el-input) {
+  width: 250px;
+}
 .flex {
   display: flex;
 }
 .footer {
   margin: 20px 0;
   text-align: center;
-}
-::v-deep(.el-input) {
-  width: 250px;
 }
 </style>
