@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <el-form ref="form" :model="form" label-width="150px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="150px" :disabled="disabled">
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="企业名称" prop="company_name">
@@ -22,10 +22,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="所属行业" prop="industry">
+          <el-form-item label="所属行业" prop="industryShow">
             <el-cascader
               size="small"
-              v-model="form.industry"
+              v-model="form.industryShow"
               :options="businessRelativeList"
               :props="defaultProps2"
               placeholder="所属行业"
@@ -88,25 +88,9 @@
         <el-col :span="12">
           <el-form-item label="营业期限" prop="businessDeadlineStartDate">
             <div class="flex">
-              <el-date-picker
-                clearable
-                v-model="form.businessDeadlineStartDate"
-                :disabledDate="startDisabledDate"
-                size="small"
-                type="date"
-                placeholder="开始日期"
-                @change="handleStartTime"
-              ></el-date-picker>
+              <el-date-picker clearable v-model="form.businessDeadlineStartDate" size="small" type="date" placeholder="开始日期"></el-date-picker>
               <span style="margin: 0 10px">至</span>
-              <el-date-picker
-                clearable
-                v-model="form.businessDeadlineEndDate"
-                size="small"
-                :disabledDate="endDisabledDate"
-                type="date"
-                placeholder="无固定期限"
-                @change="handleEndTime"
-              ></el-date-picker>
+              <el-date-picker clearable v-model="form.businessDeadlineEndDate" size="small" type="date" placeholder="无固定期限"></el-date-picker>
             </div>
           </el-form-item>
         </el-col>
@@ -168,8 +152,9 @@
       </el-row>
     </el-form>
     <div class="footer">
-      <el-button size="big" @click="resetForm('form')">重置</el-button>
-      <el-button type="primary" size="big" @click="submitForm('form')">提交认证</el-button>
+      <el-button v-show="!disabled" size="big" @click="resetForm('form')">重置</el-button>
+      <el-button v-show="!disabled" type="primary" size="big" @click="submitForm('form')">提交认证</el-button>
+      <el-button v-show="disabled" type="primary" size="big">重新认证</el-button>
     </div>
   </div>
 </template>
@@ -215,11 +200,13 @@ export default {
       }
     };
     return {
+      // 表单是否禁用，根据状态判断
+      disabled: false,
       form: {
         company_name: '',
         uscc: '',
         company_type: '',
-        industry: '',
+        industryShow: '',
         address: '',
         company_email: '',
         capital: '',
@@ -241,7 +228,7 @@ export default {
         company_name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
         uscc: [{ validator: validateSocialCreditCode, required: true, trigger: 'blur' }],
         company_type: [{ required: true, message: '请选择企业类型', trigger: 'blur' }],
-        industry: [{ required: true, message: '请选择所属行业', trigger: 'blur' }],
+        industryShow: [{ required: true, message: '请选择所属行业', trigger: 'blur' }],
         address: [{ required: true, message: '请输入企业地址', trigger: 'blur' }],
         company_email: [{ required: true, message: '请输入企业邮箱', trigger: 'blur' }],
         capital: [
@@ -284,8 +271,19 @@ export default {
     // 初始化企业信息
     initCompany() {
       getCompanyDetail().then((res) => {
-        if (res.code === 0 || res.code === '0') {
-          console.log(res);
+        if (res.code === 200 || res.code === '200') {
+          if (res.data && Object.keys(res.data).length > 0) {
+            console.log(res);
+            if (res.data == 1 || res.data == 3) {
+              this.disabled = false;
+            } else {
+              this.disabled = true;
+              this.$message({
+                message: '企业已认证完成，可点击重新认证按钮，进行重新认证',
+                type: 'warning',
+              });
+            }
+          }
         }
       });
     },
@@ -306,33 +304,17 @@ export default {
       this.license = [];
       this.license.push(obj);
     },
-    // 更改营业期限设置时间选择的禁选值
-    startDisabledDate(time) {
-      if (this.form.businessDeadlineEndDate) {
-        return time.getTime() > this.form.businessDeadlineEndDate.getTime() - 8.64e7;
-      }
-    },
-    endDisabledDate(time) {
-      if (this.form.businessDeadlineStartDate) {
-        return time.getTime() < this.form.businessDeadlineStartDat.getTime() + 8.64e7;
-      }
-    },
-    handleStartTime(startTime) {
-      this.form.businessDeadlineStartDat = startTime;
-    },
-    handleEndTime(endTime) {
-      this.form.businessDeadlineEndDate = endTime;
-    },
     // 提交企业认证
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.form.logo = this.logo[0].name;
           this.form.license = this.license[0].name;
-          console.log(this.form);
-          // saveCompanyDetail({}).then((res) => {});
+          this.form.industry = this.form.industryShow[1];
+          saveCompanyDetail(this.form).then((res) => {
+
+          });
         } else {
-          console.log('error submit!!');
           return false;
         }
       });

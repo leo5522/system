@@ -1,7 +1,7 @@
 <template>
   <!-- 导航栏 -->
   <div class="navbar">
-    <el-menu background-color="#409eff" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" router="true" class="el-menu">
+    <el-menu background-color="#409eff" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" :router="true" class="el-menu">
       <el-menu-item index="/chomefirst">首页</el-menu-item>
       <el-menu-item index="/recruitment-index">招聘信息</el-menu-item>
       <el-menu-item index="/resumesearch">简历库</el-menu-item>
@@ -9,9 +9,10 @@
       <el-menu-item index="/personnelmarket">人才市场</el-menu-item>
       <el-submenu index="myrecruitment">
         <template slot="title">我的企业</template>
-        <el-menu-item index="company-index">企业信息</el-menu-item>
-        <el-menu-item index="company-edit">修改企业信息</el-menu-item>
+        <!-- <el-menu-item index="company-index">企业信息</el-menu-item> -->
+        <!-- <el-menu-item index="company-edit">修改企业信息</el-menu-item> -->
         <el-menu-item index="company-add">企业认证</el-menu-item>
+        <el-menu-item index="company-complain">企业申诉</el-menu-item>
       </el-submenu>
       <div class="user">
         <el-dropdown>
@@ -47,7 +48,7 @@ export default {
   top: 20px;
   cursor: pointer;
 }
-/deep/ .el-dropdown {
+::v-deep(.el-dropdown) {
   color: white;
 }
 .el-icon-arrow-down {
