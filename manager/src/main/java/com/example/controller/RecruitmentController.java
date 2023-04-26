@@ -67,6 +67,10 @@ public class RecruitmentController {
     @PostMapping("/save")
     public Result save (@RequestBody Recruitment recruitment){
         //TODO：替换company_id
+        if (null == recruitment.getId()){
+            boolean bool = recruitmentService.updateById(recruitment);
+            return bool?Result.success():Result.error();
+        }
         recruitment.setCompanyId(2);
         recruitment.setCompanyName("1229 company");
         boolean bool = recruitmentService.save(recruitment);
@@ -74,9 +78,9 @@ public class RecruitmentController {
     }
 
     /**
-     * 删除招聘信息
+     * 下架招聘信息
      */
-    @PostMapping
+    @PostMapping("/delete")
     public Result deleteRecruitment(@RequestBody Recruitment recruitment){
         recruitment.setStatus(4);
         boolean bool = recruitmentService.updateById(recruitment);
