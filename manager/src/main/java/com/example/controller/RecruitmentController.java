@@ -89,7 +89,7 @@ public class RecruitmentController {
     @PostMapping("/getOne")
     public Result getOne (@RequestBody Recruitment recruitment){
 
-        recruitment = recruitmentService.getById(15);
+        recruitment = recruitmentService.getById(recruitment.getId());
         if (null == recruitment){
             return Result.error(Constants.CODE_400,"查询失败");
         }
