@@ -86,7 +86,7 @@ public class RecruitmentController {
     /**
      * 查看招聘信息
      */
-    @GetMapping("/getOne")
+    @PostMapping("/getOne")
     public Result getOne (@RequestBody Recruitment recruitment){
 
         recruitment = recruitmentService.getById(15);
