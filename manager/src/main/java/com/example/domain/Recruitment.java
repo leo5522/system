@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.example.common.PageEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -112,7 +113,7 @@ public class Recruitment implements Serializable {
      */
     @TableField(value = "create_time")
     @JsonFormat(pattern = "YYYY-MM-dd")
-    private LocalDateTime createTime;
+    private Date createTime;
 
 
 }

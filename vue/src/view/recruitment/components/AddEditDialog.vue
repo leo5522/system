@@ -19,6 +19,7 @@
         <el-col :span="12">
           <el-form-item label="工作经验" prop="experience">
             <el-input clearable size="small" v-model="form.experience" placeholder="请输入工作经验"></el-input>
+            <span style="margin-left: 10px">年</span>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -43,11 +44,13 @@
         <el-col :span="12">
           <el-form-item label="最高薪资" prop="maxsalary">
             <el-input clearable size="small" v-model="form.maxsalary" placeholder="请输入最高薪资"></el-input>
+            <span style="margin-left: 10px">元</span>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="最低薪资" prop="minsalary">
             <el-input clearable size="small" v-model="form.minsalary" placeholder="请输入最低薪资"></el-input>
+            <span style="margin-left: 10px">元</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -83,18 +86,20 @@
 <script>
 import { BUSINESS_RELATIVE, ORG_STATUS } from '@/config/dict.js';
 import { isMobile } from '@/utils/validate';
-import { addRecruitmentDetail } from '@/api/recruitment';
+import { addRecruitmentDetail, getRecruitmentDetail } from '@/api/recruitment';
 
 export default {
   props: {
     recruitmentId: {
-      // type: Number,
       default: null,
     },
   },
   watch: {
     dialogVisible(val) {
       if (val) {
+        if (this.isSaveBtn == false) {
+          this.initRecruitmentDetail();
+        }
         // this.initSponsorArrangeList();
         // this.initRecruitment();
       }
@@ -130,11 +135,11 @@ export default {
       jobtypeList: [
         {
           label: '长期',
-          value: 1,
+          value: '1',
         },
         {
           label: '短期',
-          value: 2,
+          value: '2',
         },
       ],
       form: {
@@ -152,7 +157,10 @@ export default {
       rules: {
         career: [{ required: true, message: '请输入职位名称', trigger: 'blur' }],
         jobtype: [{ required: true, message: '请输入职位名称', trigger: 'blur' }],
-        experience: [{ required: true, message: '请输入工作经验', trigger: 'blur' }],
+        experience: [
+          { validator: validateNum, trigger: 'blur' },
+          { required: true, message: '请输入工作经验', trigger: 'blur' },
+        ],
         education: [{ required: true, message: '请选择学历要求', trigger: 'blur' }],
         principal: [{ required: true, message: '请输入负责人', trigger: 'blur' }],
         phone: [
@@ -172,6 +180,7 @@ export default {
       },
     };
   },
+  mounted() {},
   methods: {
     // 获取传过来的数据
     getTitle(title) {
@@ -181,11 +190,23 @@ export default {
       this.$refs['form'].resetFields();
       this.dialogVisible = false;
     },
+    // 初始化表单
+    initRecruitmentDetail() {
+      let obj = {
+        id: this.recruitmentId,
+      };
+      getRecruitmentDetail(obj).then((res) => {
+        this.form = res.data;
+      });
+    },
     // 新增招聘信息
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          addRecruitmentDetail(this.form).then((res) => {});
+          addRecruitmentDetail(this.form).then((res) => {
+            this.$emit('reload')
+            this.handleClose();
+          });
         } else {
           return false;
         }
