@@ -23,7 +23,7 @@
           <template #default="scope" v-if="col.dataIndex === 'operation' || col.dataIndex === 'status'">
             <div v-if="col.dataIndex === 'status'">{{ showStatus[scope.row.status] }}</div>
             <div v-if="col.dataIndex === 'operation'">
-              <a class="btn" href="javascript:;">申诉</a>
+              <a class="btn" href="javascript:;" @click="dialogVisible = true">申诉</a>
             </div>
           </template>
         </el-table-column>
@@ -41,6 +41,28 @@
         :total="pagination.total"
       />
     </div>
+    <el-dialog width="70%" :visible.sync="dialogVisible" title="申诉投诉" :close-on-click-modal="false" :before-close="handleClose">
+      <div class="row">
+        <span style="width: 100px">管理员回复：</span>
+        被投诉了，请申诉
+      </div>
+      <div class="row">
+        <span style="width: 100px">申诉回复:</span>
+        <el-input
+          style="width: 300px"
+          type="textarea"
+          resize="none"
+          :autosize="{ minRows: 5 }"
+          clearable
+          size="small"
+          v-model="companyReply"
+          placeholder="请输入申诉内容"
+        ></el-input>
+      </div>
+      <div class="footer">
+        <el-button type="primary" size="big" @click="submitComplain">提交申诉</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,6 +73,8 @@ export default {
   components: {},
   data() {
     return {
+      dialogVisible: false,
+      companyReply: '',
       status: null,
       statusList: [
         {
@@ -134,6 +158,10 @@ export default {
       //   this.pagination.total = res.total;
       // });
     },
+    // 提交申诉
+    submitComplain() {
+      this.dialogVisible = false;
+    },
     handleSizeChange(pageSize) {
       if (this.pagination) {
         this.pagination.pageSize = pageSize;
@@ -188,5 +216,13 @@ export default {
 }
 .el-pagination {
   text-align: right !important;
+}
+.row {
+  display: flex;
+  margin-bottom: 10px;
+}
+.footer {
+  margin: 20px 0;
+  text-align: center;
 }
 </style>

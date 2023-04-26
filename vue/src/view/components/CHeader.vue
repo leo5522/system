@@ -5,7 +5,6 @@
       <el-menu-item index="/chomefirst">首页</el-menu-item>
       <el-menu-item index="/recruitment-index">招聘信息</el-menu-item>
       <el-menu-item index="/resumesearch">简历库</el-menu-item>
-      <!-- <el-menu-item index="/myrecruitment">我的招聘</el-menu-item> -->
       <el-menu-item index="/personnelmarket">人才市场</el-menu-item>
       <el-submenu index="myrecruitment">
         <template slot="title">我的企业</template>

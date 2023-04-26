@@ -7,10 +7,12 @@ export function getCompanyDetail() {
   });
 }
 
-
-export function saveCompanyDetail() {
+export function saveCompanyDetail(data) {
   return request({
     url: '/company/save',
+    data: {
+      ...data,
+    },
     method: 'post',
   });
 }
