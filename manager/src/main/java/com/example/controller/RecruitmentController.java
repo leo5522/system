@@ -67,7 +67,7 @@ public class RecruitmentController {
     @PostMapping("/save")
     public Result save (@RequestBody Recruitment recruitment){
         //TODO：替换company_id
-        if (null == recruitment.getId()){
+        if (!(null == recruitment.getId())){
             boolean bool = recruitmentService.updateById(recruitment);
             return bool?Result.success():Result.error();
         }
