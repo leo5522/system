@@ -40,8 +40,8 @@ public class CompanyController {
     public Result getCompany(Company company){
         //TODO：替换userid
         company.setUserId(31);
-        company.setUserId(31);
-        Company one = companyService.getById(company.getUserId());
+        company.setId(2);
+        Company one = companyService.getById(company.getId());
         return Result.success(one);
     }
 
@@ -55,10 +55,10 @@ public class CompanyController {
     public Result save(@RequestBody Company company){
         //TODO：替换userid
         company.setUserId(31);
-        Company byId = companyService.getById(company.getUserId());
-        if (byId.getStatus() == 0){
-            return Result.error(Constants.CODE_400,"企业正在审核中");
-        }
+//        Company byId = companyService.getById(company.getUserId());
+//        if (byId.getStatus() == 0){
+//            return Result.error(Constants.CODE_400,"企业正在审核中");
+//        }
         company.setStatus(0);
         boolean bool = companyService.save(company);
         return bool?Result.success():Result.error();

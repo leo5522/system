@@ -23,6 +23,7 @@ const routes = [
       { path: 'cstatistics', name: 'CStatistics', component: () => import('../companyviews/CStatistics.vue') },
       // 新
       { path: 'company-add', name: 'company-add', component: () => import('@/view/company/add.vue') },
+      { path: 'company-complain', name: 'company-complain', component: () => import('@/view/company/complain.vue') },
       { path: 'company-index', name: 'company-index', component: () => import('@/view/company/index.vue') },
       { path: 'company-edit', name: 'company-edit', component: () => import('@/view/company/edit.vue') },
       { path: 'recruitment-index', name: 'recruitment-index', component: () => import('@/view/recruitment/index.vue') },

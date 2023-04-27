@@ -28,7 +28,13 @@
             <div v-if="col.dataIndex === 'jobtype'">{{ scope.row.jobtype == 1 ? '长期' : '短期' }}</div>
             <div v-if="col.dataIndex === 'operation'">
               <a class="btn" href="javascript:;" @click="editRecruitment(scope.row)">编辑</a>
-              <el-popconfirm title="确定要下架本条数据吗?" @confirm="handleDeleteRecord" confirmButtonText="确定" cancelButtonText="取消">
+              <el-popconfirm
+                title="确定要下架本条数据吗?"
+                @confirm="handleDeleteRecord(scope.row)"
+                confirmButtonText="确定"
+                cancelButtonText="取消"
+                v-show="scope.row.status == 2"
+              >
                 <template #reference>
                   <a class="btn" href="javascript:;">下架</a>
                 </template>
@@ -50,13 +56,13 @@
         :total="pagination.total"
       />
     </div>
-    <AddEditDialog ref="addEditDialog" :recruitmentId="recruitmentId"></AddEditDialog>
+    <AddEditDialog ref="addEditDialog" :recruitmentId="recruitmentId" @reload="reloadTable"></AddEditDialog>
   </div>
 </template>
 
 <script>
 import AddEditDialog from './components/AddEditDialog.vue';
-import { getRecruitmentList } from '@/api/recruitment';
+import { getRecruitmentList, delRecruitment } from '@/api/recruitment';
 
 export default {
   components: {
@@ -99,7 +105,7 @@ export default {
         1: '待审核',
         2: '审核通过',
         3: '审核未通过',
-        4: '下架',
+        4: '已下架',
       },
       tableData: [],
       columns: [
@@ -160,8 +166,8 @@ export default {
         jobtype: this.jobtype,
       };
       getRecruitmentList(obj).then((res) => {
-        this.tableData = res.data.records;
-        this.pagination.total=res.data.total
+        this.tableData = res.records;
+        this.pagination.total = res.total;
       });
     },
     // 新增
@@ -172,14 +178,16 @@ export default {
     },
     // 编辑
     editRecruitment(record) {
-      // this.recruitmentId = record.id;
+      this.recruitmentId = record.id;
       this.$refs.addEditDialog.dialogVisible = true;
       this.$refs.addEditDialog.isSaveBtn = false;
       this.$refs.addEditDialog.getTitle('编辑招聘信息');
     },
     // 下架
-    handleDeleteRecord() {
-      console.log('del');
+    handleDeleteRecord(record) {
+      delRecruitment({ id: record.id }).then((res) => {
+        this.reloadTable();
+      });
     },
     handleSizeChange(pageSize) {
       if (this.pagination) {

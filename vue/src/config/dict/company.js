@@ -519,18 +519,18 @@ export const BUSINESS_RELATIVE = [
 export const ORG_STATUS = [
   {
     label: '无限公司',
-    value: 1,
+    value: '1',
   },
   {
     label: '有限责任公司',
-    value: 2,
+    value: '2',
   },
   {
     label: '两合公司',
-    value: 3,
+    value: '3',
   },
   {
     label: '股份有限责任公司',
-    value: 4,
+    value: '4',
   },
 ];

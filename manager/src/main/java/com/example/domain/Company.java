@@ -150,21 +150,17 @@ public class Company implements Serializable  {
      * 企业评分
      */
     private Integer score;
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time")
-    private LocalDateTime createTime;
+
 
 
     /**
      * 营业期限开始时间
      */
-    private String businessdeadlinestartdate;
+    private String bdsd;
 
     /**
      * 营业期限结束时间
      */
-    private String businessdeadlineenddate;
+    private String bded;
 
 }
