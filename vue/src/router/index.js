@@ -27,6 +27,8 @@ const routes = [
       { path: 'company-index', name: 'company-index', component: () => import('@/view/company/index.vue') },
       { path: 'company-edit', name: 'company-edit', component: () => import('@/view/company/edit.vue') },
       { path: 'recruitment-index', name: 'recruitment-index', component: () => import('@/view/recruitment/index.vue') },
+      { path: 'resume-index', name: 'resume-index', component: () => import('@/view/resume/index.vue') },
+      { path: 'talent-index', name: 'talent-index', component: () => import('@/view/talent/index.vue') },
     ],
   },
 ];

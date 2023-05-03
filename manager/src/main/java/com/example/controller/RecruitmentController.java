@@ -71,6 +71,7 @@ public class RecruitmentController {
             boolean bool = recruitmentService.updateById(recruitment);
             return bool?Result.success():Result.error();
         }
+        recruitment.setStatus(1);
         recruitment.setCompanyId(2);
         recruitment.setCompanyName("1229 company");
         boolean bool = recruitmentService.save(recruitment);
