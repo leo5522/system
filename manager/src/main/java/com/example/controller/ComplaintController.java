@@ -28,7 +28,7 @@ public class ComplaintController {
      * @return
      */
     @GetMapping("/getPage")
-    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam("status") String status){
+    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam(value = "status",required = false) String status){
         IPage<Complaint> list = complaintService.getRecruitmentServerList(status,pageNum,pageSize);
         return list;
     }
@@ -39,8 +39,10 @@ public class ComplaintController {
      */
     @PostMapping("/reply")
     public Result reply (@RequestBody Complaint complaint){
-
-        complaintService.updateById(complaint);
+        Complaint byId = complaintService.getById(complaint.getId());
+        byId.setCompanyReply(complaint.getCompanyReply());
+        byId.setStatus(2);
+        complaintService.updateById(byId);
         return Result.success();
     }
 }

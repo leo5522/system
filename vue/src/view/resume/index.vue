@@ -1,30 +1,44 @@
 <template>
   <div class="content">
     <div class="top-content">
+      <div class="btn-group">
+        <!-- <el-button size="normal" type="primary" @click="addRecruitment">新增</el-button> -->
+      </div>
       <div class="search">
-        <el-select size="normal" style="width: 250px; margin-right: 10px" class="input" v-model="status" placeholder="请选择投诉状态">
-          <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
+        <el-input
+          v-model="career"
+          style="width: 250px; margin-right: 10px"
+          size="normal"
+          clearable
+          class="input input-content"
+          placeholder="请输入职位名称"
+        />
+        <!-- <el-select size="normal" style="width: 250px; margin-right: 10px" class="input" v-model="jobtype" placeholder="请选择职位分类">
+          <el-option v-for="item in jobtypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select> -->
         <el-button size="normal" type="primary" @click="reloadTable">搜索</el-button>
       </div>
     </div>
     <el-table ref="multipleTable" :data="tableData" size="normal" style="width: 100%">
       <el-table-column label="#" width="55" type="index" align="center" fixed="left"></el-table-column>
       <template v-for="(col, index) in columns">
-        <el-table-column
-          v-if="col.show"
-          :show-overflow-tooltip="col.showOverflow"
-          :type="col.type"
-          :prop="col.dataIndex"
-          :label="col.title"
-          :width="col.width"
-          :align="col.align || 'left'"
-        >
-          <template #default="scope" v-if="col.dataIndex === 'operation' || col.dataIndex === 'status' || col.dataIndex === 'type'">
+        <el-table-column v-if="col.show" :type="col.type" :prop="col.dataIndex" :label="col.title" :width="col.width" :align="col.align || 'left'">
+          <template #default="scope" v-if="col.dataIndex === 'operation' || col.dataIndex === 'jobtype' || col.dataIndex === 'status'">
             <div v-if="col.dataIndex === 'status'">{{ showStatus[scope.row.status] }}</div>
-            <div v-if="col.dataIndex === 'type'">{{ showType[scope.row.type] }}</div>
+            <div v-if="col.dataIndex === 'jobtype'">{{ scope.row.jobtype == 1 ? '长期' : '短期' }}</div>
             <div v-if="col.dataIndex === 'operation'">
-              <a v-show="scope.row.status == 1 || scope.row.status == 5" class="btn" href="javascript:;" @click="showDialog(scope.row)">申诉</a>
+              <a class="btn" href="javascript:;" @click="editRecruitment(scope.row)">编辑</a>
+              <el-popconfirm
+                title="确定要下架本条数据吗?"
+                @confirm="handleDeleteRecord(scope.row)"
+                confirmButtonText="确定"
+                cancelButtonText="取消"
+                v-show="scope.row.status == 2"
+              >
+                <template #reference>
+                  <a class="btn" href="javascript:;">下架</a>
+                </template>
+              </el-popconfirm>
             </div>
           </template>
         </el-table-column>
@@ -42,101 +56,85 @@
         :total="pagination.total"
       />
     </div>
-    <el-dialog width="70%" :visible.sync="dialogVisible" title="申诉投诉" :close-on-click-modal="false" :before-close="handleClose">
-      <div class="row">
-        <span style="width: 100px">管理员回复：</span>
-        {{ currentItem?.reply }}
-      </div>
-      <div class="row">
-        <span style="width: 100px">申诉回复:</span>
-        <el-input
-          style="width: 300px"
-          type="textarea"
-          resize="none"
-          :autosize="{ minRows: 5 }"
-          clearable
-          size="small"
-          v-model="companyReply"
-          placeholder="请输入申诉内容"
-        ></el-input>
-      </div>
-      <div class="footer">
-        <el-button type="primary" size="big" @click="submitComplain">提交申诉</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getComplaintList, reply } from '@/api/complaint';
+import { getRecruitmentList, delRecruitment } from '@/api/recruitment';
 
 export default {
   components: {},
   data() {
     return {
-      dialogVisible: false,
-      companyReply: '',
-      status: null,
-      statusList: [
+      recruitmentId: '',
+      career: '',
+      jobtype: '',
+      jobtypeList: [
         {
-          label: '待处理',
+          label: '长期',
           value: 1,
         },
         {
-          label: '申诉中',
+          label: '短期',
+          value: 2,
+        },
+      ],
+      statusList: [
+        {
+          label: '待审核',
+          value: 1,
+        },
+        {
+          label: '审核通过',
           value: 2,
         },
         {
-          label: '被驳回',
-          value: 5,
+          label: '审核未通过',
+          value: 3,
+        },
+        {
+          label: '下架',
+          value: 4,
         },
       ],
       showStatus: {
-        1: '待处理',
-        2: '申诉中',
-        5: '被驳回',
+        1: '待审核',
+        2: '审核通过',
+        3: '审核未通过',
+        4: '已下架',
       },
-      showType: {
-        1: '欺诈行为',
-        2: '虚假宣传',
-        3: '不公平待遇',
-        4: '工作条件',
-        5: '工资问题',
-        6: '其他问题',
-      },
-      currentItem: null,
       tableData: [],
       columns: [
         {
-          title: '投诉原因',
+          title: '职位名称',
           show: true,
-          dataIndex: 'reason',
-          showOverflow: true,
+          dataIndex: 'career',
         },
         {
-          title: '投诉类型',
+          title: '职位分类',
           show: true,
-          dataIndex: 'type',
-          showOverflow: true,
+          dataIndex: 'jobtype',
         },
         {
-          title: '投诉时间',
+          title: '联系电话',
+          show: true,
+          dataIndex: 'phone',
+        },
+        {
+          title: '发布时间',
           show: true,
           dataIndex: 'createTime',
-          width: 150,
         },
         {
           title: '状态',
           show: true,
           dataIndex: 'status',
-          width: 150,
         },
         {
           title: '操作',
           align: 'right',
           show: true,
           dataIndex: 'operation',
-          width: 150,
           scopedSlots: { customRender: 'operation' },
         },
       ],
@@ -156,40 +154,35 @@ export default {
     this.reloadTable();
   },
   methods: {
-    handleClose() {
-      this.dialogVisible = false;
-      this.companyReply = '';
-    },
     reloadTable() {
       let obj = {
         pageNum: this.pagination.current,
         pageSize: this.pagination.pageSize,
-        status: this.status,
+        career: this.career,
+        jobtype: this.jobtype,
       };
-      getComplaintList(obj).then((res) => {
+      getRecruitmentList(obj).then((res) => {
         this.tableData = res.records;
         this.pagination.total = res.total;
       });
     },
-    showDialog(item) {
-      this.dialogVisible = true;
-      this.currentItem = item;
+    // 新增
+    addRecruitment() {
+      this.$refs.addEditDialog.dialogVisible = true;
+      this.$refs.addEditDialog.isSaveBtn = true;
+      this.$refs.addEditDialog.getTitle('新增招聘信息');
     },
-    // 提交申诉
-    submitComplain() {
-      let data = {
-        id: this.currentItem.id,
-        companyReply: this.companyReply,
-      };
-      reply(data).then((res) => {
-        if ((res.code = 200)) {
-          this.$message({
-            message: '提交申诉成功',
-            type: 'success',
-          });
-          this.dialogVisible = false;
-          this.reloadTable();
-        }
+    // 编辑
+    editRecruitment(record) {
+      this.recruitmentId = record.id;
+      this.$refs.addEditDialog.dialogVisible = true;
+      this.$refs.addEditDialog.isSaveBtn = false;
+      this.$refs.addEditDialog.getTitle('编辑招聘信息');
+    },
+    // 下架
+    handleDeleteRecord(record) {
+      delRecruitment({ id: record.id }).then((res) => {
+        this.reloadTable();
       });
     },
     handleSizeChange(pageSize) {
@@ -227,7 +220,7 @@ export default {
 }
 .top-content {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 25px;
 }
 .search {
@@ -246,13 +239,5 @@ export default {
 }
 .el-pagination {
   text-align: right !important;
-}
-.row {
-  display: flex;
-  margin-bottom: 10px;
-}
-.footer {
-  margin: 20px 0;
-  text-align: center;
 }
 </style>

@@ -23,8 +23,8 @@ public class ComplaintServiceImpl extends ServiceImpl<ComplaintDao, Complaint> i
         Page<Complaint> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("company_id",1);
-        queryWrapper.eq("status",1);
-        if (!"".equals(status)){
+        queryWrapper.notIn("status",3,4);
+        if (null != status){
             queryWrapper.eq("status",status);
         }
         return complaintDao.selectPage(page,queryWrapper);
