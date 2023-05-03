@@ -147,6 +147,10 @@ export default {
     this.reloadTable();
   },
   methods: {
+    handleClose() {
+      this.dialogVisible = false;
+      this.companyReply = '';
+    },
     reloadTable() {
       let obj = {
         pageNum: this.pagination.current,

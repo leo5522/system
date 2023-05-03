@@ -48,7 +48,7 @@ public interface JobHuntDao extends BaseMapper<JobHunt> {
                     "\tjh.note AS note \n" +
                     "FROM\n" +
                     "\tjob_hunt jh\n" +
-                    "\tJOIN resume r ON jh.user_id = r.user_id\n" +
+                    "\tJOIN resume r ON jh.user_id = r.stu_id\n" +
                     "\tJOIN student s ON jh.user_id = s.user_id \n" +
                     "WHERE\n" +
                     "\tjh.`status` = 1";

@@ -4,9 +4,9 @@
     <el-menu background-color="#409eff" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" :router="true" class="el-menu">
       <el-menu-item index="/chomefirst">首页</el-menu-item>
       <el-menu-item index="/recruitment-index">招聘信息</el-menu-item>
-      <el-menu-item index="/resumesearch">简历库</el-menu-item>
-      <el-menu-item index="/personnelmarket">人才市场</el-menu-item>
-      <el-submenu index="myrecruitment">
+      <el-menu-item index="/resume-index">简历库</el-menu-item>
+      <el-menu-item index="/talent-index">人才市场</el-menu-item>
+      <el-submenu index="my-recruitment">
         <template slot="title">我的企业</template>
         <!-- <el-menu-item index="company-index">企业信息</el-menu-item> -->
         <!-- <el-menu-item index="company-edit">修改企业信息</el-menu-item> -->
@@ -52,5 +52,8 @@ export default {
 }
 .el-icon-arrow-down {
   margin-left: 5px;
+}
+::v-deep(.el-submenu__title) i {
+  color: white;
 }
 </style>
