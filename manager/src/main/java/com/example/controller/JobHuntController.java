@@ -2,6 +2,8 @@ package com.example.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.common.Result;
+import com.example.domain.Complaint;
 import com.example.service.JobHuntService;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +38,8 @@ public class JobHuntController {
         List<HashMap> all = jobHuntService.getAll(pageNum, pageSize);
         return all;
     }
+
+
 
 }
 
