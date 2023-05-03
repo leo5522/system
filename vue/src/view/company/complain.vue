@@ -20,8 +20,9 @@
           :width="col.width"
           :align="col.align || 'left'"
         >
-          <template #default="scope" v-if="col.dataIndex === 'operation' || col.dataIndex === 'status'">
+          <template #default="scope" v-if="col.dataIndex === 'operation' || col.dataIndex === 'status' || col.dataIndex === 'type'">
             <div v-if="col.dataIndex === 'status'">{{ showStatus[scope.row.status] }}</div>
+            <div v-if="col.dataIndex === 'type'">{{ showType[scope.row.type] }}</div>
             <div v-if="col.dataIndex === 'operation'">
               <a class="btn" href="javascript:;" @click="dialogVisible = true">申诉</a>
             </div>
@@ -95,12 +96,21 @@ export default {
         2: '申诉中',
         5: '被驳回',
       },
+      showType: {
+        1: '欺诈行为',
+        2: '虚假宣传',
+        3: '不公平待遇',
+        4: '工作条件',
+        5: '工资问题',
+        6: '其他问题',
+      },
       tableData: [
         {
           reason:
             '投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因投诉原因',
           createTime: '2021-2-1',
           status: 1,
+          type: 1,
         },
       ],
       columns: [
@@ -108,6 +118,12 @@ export default {
           title: '投诉原因',
           show: true,
           dataIndex: 'reason',
+          showOverflow: true,
+        },
+        {
+          title: '投诉类型',
+          show: true,
+          dataIndex: 'type',
           showOverflow: true,
         },
         {
