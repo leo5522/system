@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * <p>
@@ -41,7 +42,7 @@ public class UserController {
     @PostMapping("/login")
     public Result login (@RequestBody User user){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name",user.getUsername());
+        wrapper.eq("username",user.getUsername());
         User one = userService.getOne(wrapper);
         if (null == one){
             return Result.error("405","账号密码不正确");
@@ -94,12 +95,16 @@ public class UserController {
         }
         User user = new User();
         user.setUsername(register.getUserName());
-        user.setIsActive(1);
+        user.setIsActive(2);
         user.setPassword(register.getPassword());
+        user.setNickname(register.getUserName());
+        user.setEmail("");
+        user.setPhone("");
+        user.setType(2);
         boolean save = userService.save(user);
         if (save){
             QueryWrapper<User> wrapper1 = new QueryWrapper<>();
-            wrapper.eq("username",user.getUsername());
+            wrapper1.eq("username",user.getUsername());
             User one1 = userService.getOne(wrapper1);
             Integer id = one1.getId();
             Company company = new Company();

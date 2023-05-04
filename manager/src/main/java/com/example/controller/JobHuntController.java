@@ -1,12 +1,8 @@
 package com.example.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.common.Result;
-import com.example.domain.Complaint;
+import cn.hutool.json.JSONObject;
 import com.example.service.JobHuntService;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -37,20 +33,20 @@ public class JobHuntController {
      * @return
      */
     @GetMapping(value = "/getPage",produces = "application/json;charset=UTF-8")
-    public String  getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
+    public JSONObject  getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
                                   @RequestParam(value = "minSalary",required = false) String minSalary,
                                   @RequestParam(value = "position",required = false) String position,
-                                  @RequestParam(value = "positionWorkplace",required = false) String positionWorkplace) throws JSONException {
+                                  @RequestParam(value = "positionWorkplace",required = false) String positionWorkplace){
         Map<String, Object> params = new HashMap<>();
         params.put("positionWorkplace",positionWorkplace);
         params.put("position",position);
         params.put("minSalary",minSalary);
-        List<HashMap> all = jobHuntService.getAll(pageNum, pageSize,params);
+        List<HashMap> all = jobHuntService.getAll(pageNum, pageSize,position,positionWorkplace,minSalary);
         List<HashMap> total = jobHuntService.getTotal(params);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("total",total.size());
-        jsonObject.put("data",all);
-        return jsonObject.toString();
+        jsonObject.set("total",total.size());
+        jsonObject.set("data",all);
+        return jsonObject;
     }
 
 
