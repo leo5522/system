@@ -52,7 +52,7 @@
               <el-input
                 ref="companyName"
                 size="small"
-                v-model="form.companyName"
+                v-model="registerForm.companyName"
                 placeholder="请输入企业名称"
                 name="companyName"
                 type="text"
@@ -64,7 +64,7 @@
               <el-input
                 ref="username"
                 size="small"
-                v-model="form.username"
+                v-model="registerForm.username"
                 placeholder="请输入用户名"
                 name="username"
                 type="text"
@@ -76,7 +76,7 @@
             <el-form-item prop="password">
               <el-input
                 ref="password"
-                v-model="form.password"
+                v-model="registerForm.password"
                 show-password
                 placeholder="请输入密码"
                 name="password"
@@ -89,7 +89,7 @@
             <el-form-item prop="confirmPwd">
               <el-input
                 ref="confirmPwd"
-                v-model="form.confirmPwd"
+                v-model="registerForm.confirmPwd"
                 show-password
                 placeholder="请再次输入密码"
                 name="confirmPwd"
@@ -119,6 +119,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate';
+import { login, register } from '@/api/login';
 
 export default {
   data() {
@@ -172,9 +173,38 @@ export default {
   },
   methods: {
     // 登录
-    handlePasswordLogin() {},
+    handlePasswordLogin() {
+      let data = {
+        username: this.form.username,
+        password: this.form.password,
+      };
+      login(data).then((res) => {
+        if ((res.code = 200)) {
+          this.$router.push({
+            path: '/chomefirst',
+          });
+        }
+      });
+    },
     // 注册
-    handleRegister() {},
+    handleRegister() {
+      let data = {
+        companyName: this.registerForm.companyName,
+        userName: this.registerForm.username,
+        password: this.registerForm.password,
+        password2: this.registerForm.confirmPwd,
+      };
+      register(data).then((res) => {
+        if ((res.code = 200)) {
+          this.$message({
+            message: '注册成功',
+            type: 'success',
+          });
+          this.loginTab = 'password';
+          this.$refs['registerForm'].resetFields();
+        }
+      });
+    },
   },
 };
 </script>

@@ -20,7 +20,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>账号信息</el-dropdown-item>
             <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item><div href="#" @click="loginOut">退出</div></el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -29,11 +29,25 @@
 </template>
 
 <script>
+import { logout } from '@/api/login';
 export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    loginOut() {
+      console.log('logout');
+      logout().then((res) => {
+        if (res.code == 200) {
+          this.$router.push('/login');
+          this.$message({
+            message: '已退出登录',
+            type: 'success',
+          });
+        }
+      });
+    },
+  },
 };
 </script>
 

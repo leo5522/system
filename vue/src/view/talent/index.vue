@@ -6,7 +6,7 @@
       </div>
       <div class="search">
         <el-input
-          v-model="career"
+          v-model="position"
           style="width: 250px; margin-right: 10px"
           size="normal"
           clearable
@@ -14,7 +14,7 @@
           placeholder="请输入意向职位名称"
         />
         <el-input
-          v-model="salary"
+          v-model="minSalary"
           style="width: 250px; margin-right: 10px"
           size="normal"
           clearable
@@ -22,7 +22,7 @@
           placeholder="请输入期望薪资"
         />
         <el-input
-          v-model="address"
+          v-model="positionWorkplace"
           style="width: 250px; margin-right: 10px"
           size="normal"
           clearable
@@ -114,7 +114,9 @@ export default {
   name: 'PersonnelMarket',
   data() {
     return {
-      searchValue: '',
+      minSalary: '',
+      position: '',
+      positionWorkplace: '',
       dialogVisible: false,
       cards: [],
       itemDetail: {},
@@ -146,12 +148,15 @@ export default {
       let obj = {
         pageNum: this.pagination.current,
         pageSize: this.pagination.pageSize,
+        minSalary:this.minSalary,
+        position:this.position,
+        positionWorkplace:this.positionWorkplace,
       };
       getJobHuntList(obj).then((res) => {
-        res.forEach((item) => {
+        res.data.forEach((item) => {
           item['hover'] = false;
         });
-        this.cards = res;
+        this.cards = res.data;
         this.pagination.total = res.total;
       });
     },
