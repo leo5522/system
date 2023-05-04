@@ -27,6 +27,9 @@ public interface JobHuntDao extends BaseMapper<JobHunt> {
     @SelectProvider(type = MyProvider.class, method = "getAllMethod")
     List<HashMap> getAll(Page<HashMap> page,Map<String, Object> params);
 
+    @SelectProvider(type = MyProvider.class, method = "getAllMethod")
+    List<HashMap> getTotl(Map<String, Object> params);
+
 
     class MyProvider{
         public String getAllMethod(Map<String, Object> params) {

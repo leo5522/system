@@ -20,4 +20,5 @@ public interface JobHuntService extends IService<JobHunt> {
 
     List<HashMap> getAll(Integer pageNum, Integer pageSize, Map<String, Object> params);
 
+    List<HashMap> getTotal(Map<String, Object> params);
 }

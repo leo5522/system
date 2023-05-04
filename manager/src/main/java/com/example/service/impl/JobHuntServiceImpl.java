@@ -37,4 +37,10 @@ public class JobHuntServiceImpl extends ServiceImpl<JobHuntDao, JobHunt> impleme
         List<HashMap> all = jobHuntDao.getAll(page,params);
         return all;
     }
+
+    @Override
+    public List<HashMap> getTotal(Map<String, Object> params) {
+        List<HashMap> all = jobHuntDao.getTotl(params);
+        return all;
+    }
 }
