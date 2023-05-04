@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/complaint")
 public class ComplaintController {
 
     @Resource
@@ -29,7 +30,7 @@ public class ComplaintController {
      */
     @GetMapping("/getPage")
     @SaCheckLogin
-    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam("status") String status){
+    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam(value = "status",required = false) String status){
         IPage<Complaint> list = complaintService.getRecruitmentServerList(status,pageNum,pageSize);
         return list;
     }

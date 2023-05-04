@@ -32,9 +32,9 @@ public class JobHuntServiceImpl extends ServiceImpl<JobHuntDao, JobHunt> impleme
     private JobHuntDao jobHuntDao;
 
     @Override
-    public List<HashMap> getAll(Integer pageNum, Integer pageSize, Map<String, Object> params) {
+    public List<HashMap> getAll(Integer pageNum, Integer pageSize, String positon,String positionWorkplace,String minSalary) {
         Page<HashMap> page = new Page<>(pageNum, pageSize);
-        List<HashMap> all = jobHuntDao.getAll(page,params);
+        List<HashMap> all = jobHuntDao.getAll(page,positon,positionWorkplace,minSalary);
         return all;
     }
 

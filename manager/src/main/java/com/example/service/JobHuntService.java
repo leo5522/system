@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface JobHuntService extends IService<JobHunt> {
 
-    List<HashMap> getAll(Integer pageNum, Integer pageSize, Map<String, Object> params);
+    List<HashMap> getAll(Integer pageNum, Integer pageSize, String positon,String positionWorkplace,String minSalary);
 
     List<HashMap> getTotal(Map<String, Object> params);
 }

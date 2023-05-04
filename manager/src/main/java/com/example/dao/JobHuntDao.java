@@ -25,29 +25,29 @@ import java.util.Map;
 public interface JobHuntDao extends BaseMapper<JobHunt> {
 
     @SelectProvider(type = MyProvider.class, method = "getAllMethod")
-    List<HashMap> getAll(Page<HashMap> page,Map<String, Object> params);
+    List<HashMap> getAll(Page<HashMap> page,String positon,String positionWorkplace,String minSalary);
 
     @SelectProvider(type = MyProvider1.class, method = "getAllMethod1")
     List<HashMap> getTotl(Map<String, Object> params);
 
 
     class MyProvider{
-        public String getAllMethod(Map<String, Object> params) {
+        public String getAllMethod(String positon,String positionWorkplace,String minSalary) {
                 StringBuilder sqlBuilder = new StringBuilder();
                 sqlBuilder.append("SELECT jh.user_id AS userId, s.NAME AS NAME, s.age AS age, s.gender AS gender, s.hobby AS hobby, s.university AS university, s.major AS major, r.photo AS photo, r.work_experiene AS workExperiene, r.self_assessment AS selfAssessment, r.award AS award, jh.create_time AS createTime, jh.min_salary AS minSalary, jh.position AS position, jh.job_type AS jobType, jh.position_workplace AS positionWorkplace, jh.note AS note ");
                 sqlBuilder.append("FROM job_hunt jh JOIN student s ON jh.user_id = s.user_id JOIN resume r on r.stu_id = s.id ");
                 sqlBuilder.append("WHERE jh.`status` = 1 ");
 
-                if (params.containsKey("positionWorkplace") && params.get("positionWorkplace") != null) {
+                if (!positionWorkplace.equals("")) {
                     sqlBuilder.append("AND jh.position_workplace like CONCAT('%', #{positionWorkplace}, '%') ");
                 }
 
-                if (params.containsKey("position") && params.get("position") != null) {
-                    sqlBuilder.append("AND jh.position like CONCAT('%', #{position}, '%') ");
+                if (!positon.equals("")) {
+                    sqlBuilder.append("AND jh.position like CONCAT('%', #{positon}, '%') ");
                 }
 
-                if (params.containsKey("minSalary") && params.get("minSalary") != null) {
-                    sqlBuilder.append("AND jh.min_salary >= #{minSalary} ");
+                if (!minSalary.equals("")) {
+                    sqlBuilder.append("AND jh.min_salary <= #{minSalary} ");
                 }
 
                 return sqlBuilder.toString();
@@ -63,16 +63,16 @@ public interface JobHuntDao extends BaseMapper<JobHunt> {
             sqlBuilder.append("FROM job_hunt jh JOIN student s ON jh.user_id = s.user_id JOIN resume r on r.stu_id = s.id ");
             sqlBuilder.append("WHERE jh.`status` = 1 ");
 
-            if (params.containsKey("positionWorkplace") && params.get("positionWorkplace") != null) {
+            if (params.containsKey("positionWorkplace") && params.get("positionWorkplace") != null && !params.get("positionWorkplace").equals("")) {
                 sqlBuilder.append("AND jh.position_workplace like CONCAT('%', #{positionWorkplace}, '%') ");
             }
 
-            if (params.containsKey("position") && params.get("position") != null) {
+            if (params.containsKey("position") && params.get("position") != null && !params.get("position").equals("")) {
                 sqlBuilder.append("AND jh.position like CONCAT('%', #{position}, '%') ");
             }
 
-            if (params.containsKey("minSalary") && params.get("minSalary") != null) {
-                sqlBuilder.append("AND jh.min_salary >= #{minSalary} ");
+            if (params.containsKey("minSalary") && params.get("minSalary") != null && !params.get("minSalary").equals("")) {
+                sqlBuilder.append("AND jh.min_salary <= #{minSalary} ");
             }
 
             return sqlBuilder.toString();
