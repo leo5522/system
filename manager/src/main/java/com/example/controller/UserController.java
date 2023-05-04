@@ -46,11 +46,15 @@ public class UserController {
         if (null == one){
             return Result.error("405","账号密码不正确");
         }
+        if (one.getIsActive() == 1){
+            return Result.error("405","账号已被停用,请联系管理员");
+        }
         String password = one.getPassword();
         String password1 = user.getPassword();
         if (!password1.equals(password)){
             return Result.error("405","账号密码不正确");
         }
+
         QueryWrapper<Company> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("user_id",one.getId());
         Company one1 = companyService.getOne(wrapper1);
