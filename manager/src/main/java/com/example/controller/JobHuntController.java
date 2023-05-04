@@ -36,8 +36,8 @@ public class JobHuntController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/getPage")
-    public JSONObject getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
+    @GetMapping(value = "/getPage",produces = "application/json;charset=UTF-8")
+    public String  getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
                                   @RequestParam(value = "minSalary",required = false) String minSalary,
                                   @RequestParam(value = "position",required = false) String position,
                                   @RequestParam(value = "positionWorkplace",required = false) String positionWorkplace) throws JSONException {
@@ -50,7 +50,7 @@ public class JobHuntController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("total",total.size());
         jsonObject.put("data",all);
-        return jsonObject;
+        return jsonObject.toString();
     }
 
 

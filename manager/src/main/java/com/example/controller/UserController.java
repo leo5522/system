@@ -3,6 +3,7 @@ package com.example.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.domain.Company;
@@ -50,8 +51,13 @@ public class UserController {
         if (!password1.equals(password)){
             return Result.error("405","账号密码不正确");
         }
-
-        StpUtil.login(user.getId());
+        QueryWrapper<Company> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("user_id",one.getId());
+        Company one1 = companyService.getOne(wrapper1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.set("userId",one.getId());
+        jsonObject.set("companyId",one1.getId());
+        StpUtil.login(jsonObject);
 
         return Result.success();
 
