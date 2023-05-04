@@ -35,9 +35,14 @@ public class JobHuntController {
      * @return
      */
     @GetMapping("/getPage")
-    public List<HashMap> getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize){
+    public List<HashMap> getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
+                                  @RequestParam(value = "minSalary",required = false) String minSalary,
+                                  @RequestParam(value = "position",required = false) String position,
+                                  @RequestParam(value = "positionWorkplace",required = false) String positionWorkplace){
         Map<String, Object> params = new HashMap<>();
-
+        params.put("positionWorkplace",positionWorkplace);
+        params.put("position",position);
+        params.put("minSalary",minSalary);
         List<HashMap> all = jobHuntService.getAll(pageNum, pageSize,params);
         return all;
     }
