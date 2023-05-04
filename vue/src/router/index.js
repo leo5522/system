@@ -5,10 +5,19 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/login',
+    name: 'login',
+    hidden: true,
+    meta: {
+      title: '登录',
+    },
+    component: () => import('@/view/login/index'),
+  },
+  {
     /*企业端主页路由*/ path: '/',
     name: '企业端首页',
     component: () => import('@/view/components/CHomeView'),
-    redirect: '/chomefirst',
+    redirect: '/login',
     children: [
       { path: 'chomefirst', name: 'CHomeFirst', component: () => import('../companyviews/CHomeFirst') },
       { path: 'companyabout', name: 'CompanyAbout', component: () => import('../companyviews/CompanyAbout') },
