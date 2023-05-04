@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.common.Result;
 import com.example.domain.Complaint;
@@ -13,7 +14,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/complaint")
 public class ComplaintController {
 
     @Resource
@@ -28,7 +28,8 @@ public class ComplaintController {
      * @return
      */
     @GetMapping("/getPage")
-    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam(value = "status",required = false) String status){
+    @SaCheckLogin
+    public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam("status") String status){
         IPage<Complaint> list = complaintService.getRecruitmentServerList(status,pageNum,pageSize);
         return list;
     }
@@ -38,12 +39,10 @@ public class ComplaintController {
      * 企业回复
      */
     @PostMapping("/reply")
+    @SaCheckLogin
     public Result reply (@RequestBody Complaint complaint){
-        Complaint byId = complaintService.getById(complaint.getId());
-        byId.setCompanyReply(complaint.getCompanyReply());
-        byId.setStatus(2);
-        complaintService.updateById(byId);
+
+        complaintService.updateById(complaint);
         return Result.success();
-//        123
     }
 }

@@ -2,6 +2,8 @@ package com.example.controller;
 
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.Constants;
@@ -37,6 +39,7 @@ public class CompanyController {
      * @return
      */
     @PostMapping("/getCompany")
+    @SaCheckLogin
     public Result getCompany(Company company){
         //TODO：替换userid
         company.setUserId(31);
@@ -52,9 +55,10 @@ public class CompanyController {
      * @return
      */
     @PostMapping("/save")
+    @SaCheckLogin
     public Result save(@RequestBody Company company){
         //TODO：替换userid
-        company.setUserId(31);
+        company.setUserId(StpUtil.getLoginIdAsInt());
 //        Company byId = companyService.getById(company.getUserId());
 //        if (byId.getStatus() == 0){
 //            return Result.error(Constants.CODE_400,"企业正在审核中");
