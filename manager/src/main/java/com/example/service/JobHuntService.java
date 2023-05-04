@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,6 +18,6 @@ import java.util.List;
  */
 public interface JobHuntService extends IService<JobHunt> {
 
-    List<HashMap> getAll(Integer pageNum, Integer pageSize);
+    List<HashMap> getAll(Integer pageNum, Integer pageSize, Map<String, Object> params);
 
 }

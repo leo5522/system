@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.common.Result;
 import com.example.domain.Complaint;
@@ -27,6 +28,7 @@ public class ComplaintController {
      * @return
      */
     @GetMapping("/getPage")
+    @SaCheckLogin
     public IPage<Complaint>  getPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize, @RequestParam("status") String status){
         IPage<Complaint> list = complaintService.getRecruitmentServerList(status,pageNum,pageSize);
         return list;
@@ -37,6 +39,7 @@ public class ComplaintController {
      * 企业回复
      */
     @PostMapping("/reply")
+    @SaCheckLogin
     public Result reply (@RequestBody Complaint complaint){
 
         complaintService.updateById(complaint);

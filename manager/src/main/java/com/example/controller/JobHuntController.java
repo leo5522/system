@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -35,7 +36,9 @@ public class JobHuntController {
      */
     @GetMapping("/getPage")
     public List<HashMap> getPage (@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize){
-        List<HashMap> all = jobHuntService.getAll(pageNum, pageSize);
+        Map<String, Object> params = new HashMap<>();
+
+        List<HashMap> all = jobHuntService.getAll(pageNum, pageSize,params);
         return all;
     }
 

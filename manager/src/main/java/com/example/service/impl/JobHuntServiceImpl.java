@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,9 +32,9 @@ public class JobHuntServiceImpl extends ServiceImpl<JobHuntDao, JobHunt> impleme
     private JobHuntDao jobHuntDao;
 
     @Override
-    public List<HashMap> getAll(Integer pageNum, Integer pageSize) {
+    public List<HashMap> getAll(Integer pageNum, Integer pageSize, Map<String, Object> params) {
         Page<HashMap> page = new Page<>(pageNum, pageSize);
-        List<HashMap> all = jobHuntDao.getAll(page);
+        List<HashMap> all = jobHuntDao.getAll(page,params);
         return all;
     }
 }
