@@ -42,7 +42,7 @@
         :total="pagination.total"
       />
     </div>
-    <el-dialog width="70%" :visible.sync="dialogVisible" title="申诉投诉" :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog width="40%" :visible.sync="dialogVisible" title="申诉投诉" :close-on-click-modal="false" :before-close="handleClose">
       <div class="row">
         <span style="width: 100px">管理员回复：</span>
         {{ currentItem?.reply }}
@@ -50,7 +50,6 @@
       <div class="row">
         <span style="width: 100px">申诉回复:</span>
         <el-input
-          style="width: 300px"
           type="textarea"
           resize="none"
           :autosize="{ minRows: 5 }"

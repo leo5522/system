@@ -180,6 +180,8 @@ export default {
       };
       login(data).then((res) => {
         if ((res.code = 200)) {
+          localStorage.setItem('tokenName', res.data.tokenName);
+          localStorage.setItem('tokenValue', res.data.tokenValue);
           this.$router.push({
             path: '/chomefirst',
           });

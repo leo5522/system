@@ -11,8 +11,9 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-    // config.headers['token'] = localStorage.getItem("");  // 设置请求头
+    let name = localStorage.getItem('tokenName');
+    let val = localStorage.getItem('tokenValue');
+    config.headers[name] = val; // 设置请求头
     return config;
   },
   (error) => {

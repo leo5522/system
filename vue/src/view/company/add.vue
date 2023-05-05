@@ -79,7 +79,7 @@
               clearable
               style="width: 250px"
               size="small"
-              value-format="YYYY-MM-DD"
+              value-format="yyyy-MM-DD"
               v-model="form.establishDate"
               type="date"
               placeholder="选择日期"
@@ -93,7 +93,7 @@
                 clearable
                 v-model="form.bdsd"
                 size="small"
-                value-format="YYYY-MM-DD"
+                value-format="yyyy-MM-DD"
                 type="date"
                 placeholder="开始日期"
               ></el-date-picker>
@@ -102,7 +102,7 @@
                 clearable
                 v-model="form.bded"
                 size="small"
-                value-format="YYYY-MM-DD"
+                value-format="yyyy-MM-DD"
                 type="date"
                 placeholder="无固定期限"
               ></el-date-picker>
@@ -141,7 +141,7 @@
               clearable
               style="width: 250px"
               size="small"
-              value-format="YYYY-MM-DD"
+              value-format="yyyy-MM-DD"
               v-model="form.approvalDate"
               type="date"
               placeholder="选择日期"
@@ -150,7 +150,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="企业logo" prop="logoShow">
-            <el-upload class="upload-demo" action="http://localhost:9090/images/upload" :limit="1" :file-list="form.logoShow" :on-success="upload1" :on-preview="openImg1">
+            <el-upload
+              class="upload-demo"
+              action="http://localhost:9090/upload"
+              :limit="1"
+              :file-list="form.logoShow"
+              :on-success="upload1"
+              :on-preview="openImg1"
+            >
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -159,7 +166,14 @@
       <el-row :gutter="30">
         <el-col :span="12">
           <el-form-item label="营业执照" prop="licenseShow">
-            <el-upload class="upload-demo" action="http://localhost:9090/images/upload" :limit="1" :file-list="form.licenseShow" :on-success="upload2" :on-preview="openImg2">
+            <el-upload
+              class="upload-demo"
+              action="http://localhost:9090/upload"
+              :limit="1"
+              :file-list="form.licenseShow"
+              :on-success="upload2"
+              :on-preview="openImg2"
+            >
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-form-item>
@@ -290,7 +304,7 @@ export default {
       getCompanyDetail().then((res) => {
         if (res.code === 200 || res.code === '200') {
           if (res.data && Object.keys(res.data).length > 0) {
-            if (res.data == 1 || res.data == 3) {
+            if (res.data.status == 1 || res.data.status == 3) {
               this.disabled = false;
             } else {
               this.form = res.data;
@@ -320,24 +334,24 @@ export default {
     // 图片上传
     upload1(file) {
       let obj = {
-        name: file.data.filename,
-        url: file.data.url,
+        name: file.data,
+        url: file.data,
       };
       this.form.logoShow.push(obj);
       this.form.logo = this.form.logoShow[0].name;
     },
     upload2(file) {
       let obj = {
-        name: file.data.filename,
+        name: file.data,
         url: file.data.url,
       };
       this.form.licenseShow.push(obj);
       this.form.license = this.form.licenseShow[0].name;
     },
-    openImg1(file){
+    openImg1(file) {
       console.log(window.open(file.url));
     },
-    openImg2(file){
+    openImg2(file) {
       console.log(window.open(file.url));
     },
     // 提交企业认证

@@ -89,7 +89,7 @@
           </div>
         </div>
         <div slot="footer">
-          <el-button @click="dialogVisible = false">关闭</el-button>
+          <el-button size="normal" @click="dialogVisible = false">关闭</el-button>
         </div>
       </el-dialog>
     </div>
@@ -148,9 +148,9 @@ export default {
       let obj = {
         pageNum: this.pagination.current,
         pageSize: this.pagination.pageSize,
-        minSalary:this.minSalary,
-        position:this.position,
-        positionWorkplace:this.positionWorkplace,
+        minSalary: this.minSalary,
+        position: this.position,
+        positionWorkplace: this.positionWorkplace,
       };
       getJobHuntList(obj).then((res) => {
         res.data.forEach((item) => {

@@ -187,7 +187,18 @@ export default {
       this.dialogTitle = title;
     },
     handleClose() {
-      this.$refs['form'].resetFields();
+      this.form = {
+        career: '',
+        jobtype: '',
+        experience: '',
+        education: '',
+        principal: '',
+        phone: '',
+        minsalary: '',
+        maxsalary: '',
+        workplace: '',
+        description: '',
+      };
       this.dialogVisible = false;
     },
     // 初始化表单
@@ -204,8 +215,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           addRecruitmentDetail(this.form).then((res) => {
-            this.$emit('reload')
-            this.handleClose();
+            if (res.code == '400') {
+              this.$message({
+                message: '企业未认证，请先进行认证',
+                type: 'warning',
+              });
+            } else {
+              this.$emit('reload');
+              this.handleClose();
+            }
           });
         } else {
           return false;
