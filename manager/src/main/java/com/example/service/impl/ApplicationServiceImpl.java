@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.dao.ApplicationDao;
@@ -20,13 +21,15 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationDao, Applicat
     @Override
     public List<HashMap> getAll(int pageNum, int pageSize, String career) {
         Page<HashMap> page = new Page<>(pageNum, pageSize);
-        List<HashMap> list = applicationDao.getAll(page,career);
+        String loginIdAsString = StpUtil.getLoginIdAsString();
+        List<HashMap> list = applicationDao.getAll(page,career,loginIdAsString);
         return list;
     }
 
     @Override
     public List<HashMap> getTotal(String career) {
-        List<HashMap> all = applicationDao.getTotl(career);
+        String loginIdAsString = StpUtil.getLoginIdAsString();
+        List<HashMap> all = applicationDao.getTotl(career,loginIdAsString);
         return all;
     }
 }
