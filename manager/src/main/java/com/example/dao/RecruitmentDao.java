@@ -29,7 +29,7 @@ public interface RecruitmentDao extends BaseMapper<Recruitment> {
      * @return
      */
     @Select("<script>" +
-            "select * from recruitment r left join company c on r.company_id = c.id" +
+            "select * from recruitment r left join company c on r.company_id = c.id WHERE c.id = #{companyId}" +
             "<where>" +
             "<if test=\"career != null and career != ''\">" +
             "r.career like CONCAT('%',#{career},'%')" +
@@ -42,5 +42,5 @@ public interface RecruitmentDao extends BaseMapper<Recruitment> {
             "</if>" +
             "</where>" +
             "</script>")
-    List<CompanyRecruitmentVo> selectAllRecruitmentByCondition(Page<CompanyRecruitmentVo> page, @Param("career") String career, @Param("education") String education, @Param("workplace") String workplace);
+    List<CompanyRecruitmentVo> selectAllRecruitmentByCondition(Page<CompanyRecruitmentVo> page, @Param("career") String career, @Param("education") String education, @Param("workplace") String workplace,@Param("companyId") String companyId);
 }

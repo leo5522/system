@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -37,14 +38,16 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentDao, Recruitm
      * @return
      */
     public Page<CompanyRecruitmentVo> getAllRecruitmentByCondition(Page<CompanyRecruitmentVo> page, String career, String education, String workplace){
-        return page.setRecords(recruitmentDao.selectAllRecruitmentByCondition(page,career,education,workplace));
+        String loginIdAsString = StpUtil.getLoginIdAsString();
+        return page.setRecords(recruitmentDao.selectAllRecruitmentByCondition(page,career,education,workplace,loginIdAsString));
     }
 
     @Override
     public IPage<Recruitment> getRecruitmentServerList(String jobtype,String career, Integer pageNum, Integer pageSize) {
         Page<Recruitment> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Recruitment> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("company_id",2);
+        int companyId = StpUtil.getLoginIdAsInt();
+        queryWrapper.eq("company_id",companyId);
         if(!jobtype.equals("") || jobtype == null){
             queryWrapper.like("jobtype",jobtype);
         }

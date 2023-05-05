@@ -41,9 +41,8 @@ public class CompanyController {
     @PostMapping("/getCompany")
     @SaCheckLogin
     public Result getCompany(Company company){
-        //TODO：替换userid
-        company.setUserId(31);
-        company.setId(2);
+        int companyId = StpUtil.getLoginIdAsInt();
+        company.setId(companyId);
         Company one = companyService.getById(company.getId());
         return Result.success(one);
     }
@@ -57,7 +56,6 @@ public class CompanyController {
     @PostMapping("/save")
     @SaCheckLogin
     public Result save(@RequestBody Company company){
-        //TODO：替换userid
         company.setUserId(StpUtil.getLoginIdAsInt());
 //        Company byId = companyService.getById(company.getUserId());
 //        if (byId.getStatus() == 0){

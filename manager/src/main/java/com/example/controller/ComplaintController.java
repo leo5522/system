@@ -42,7 +42,6 @@ public class ComplaintController {
     @PostMapping("/reply")
     @SaCheckLogin
     public Result reply (@RequestBody Complaint complaint){
-
         complaintService.updateById(complaint);
         return Result.success();
     }

@@ -59,11 +59,7 @@ public class UserController {
         QueryWrapper<Company> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("user_id",one.getId());
         Company one1 = companyService.getOne(wrapper1);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.set("userId",one.getId());
-        jsonObject.set("companyId",one1.getId());
-        StpUtil.login(jsonObject);
-
+        StpUtil.login(one1.getId());
         return Result.success();
 
     }

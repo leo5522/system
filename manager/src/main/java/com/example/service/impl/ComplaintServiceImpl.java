@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,10 +20,10 @@ public class ComplaintServiceImpl extends ServiceImpl<ComplaintDao, Complaint> i
     private ComplaintDao complaintDao;
     @Override
     public IPage<Complaint> getRecruitmentServerList(String status, int pageNum, int pageSize) {
-        // TODO: 企业id修改
         Page<Complaint> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("company_id",1);
+        int companyId = StpUtil.getLoginIdAsInt();
+        queryWrapper.eq("company_id",companyId);
         queryWrapper.notIn("status",3,4);
         if (null != status){
             queryWrapper.eq("status",status);
