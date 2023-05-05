@@ -13,6 +13,7 @@ public class UploadService {
     private static final int MAX_RETRY_TIMES = 3; // 最大重试次数
     @Resource
     private OSSClient ossClient;
+
     @Resource
     private Environment env;
 
