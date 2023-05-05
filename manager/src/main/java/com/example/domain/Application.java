@@ -1,8 +1,14 @@
 package com.example.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
-
+@Accessors(chain = true)
+@TableName("application")
 public class Application implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -12,6 +18,7 @@ public class Application implements Serializable {
     /**
      * a_id
      */
+    @TableId(value = "a_id", type = IdType.ASSIGN_ID)
     private Integer aId;
 
     /**

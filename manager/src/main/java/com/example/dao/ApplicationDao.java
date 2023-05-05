@@ -14,44 +14,25 @@ import java.util.Map;
 public interface ApplicationDao extends BaseMapper<Application> {
 
 
-    @SelectProvider(type = JobHuntDao.MyProvider.class, method = "getAllMethod")
+    @SelectProvider(type = ApplicationDao.MyProvider.class, method = "getAllMethod")
     List<HashMap> getAll(Page<HashMap> page,String career,String companyId);
 
 
 
-    @SelectProvider(type = JobHuntDao.MyProvider1.class, method = "getAllMethod1")
+    @SelectProvider(type = ApplicationDao.MyProvider1.class, method = "getAllMethod1")
     List<HashMap> getTotl(String career,String companyId);
 
 
     class MyProvider{
         public String getAllMethod(String career,String companyId) {
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.append("SELECT\n" +
-                    "\ta.a_id as id,\n" +
-                    "\ta.user_id as userId,\n" +
-                    "\ta.a_status as 'status',\n" +
-                    "\ta.reply as reply,\n" +
-                    "\ta.interview_place as interviewPlace,\n" +
-                    "\ta.interview_time as interviewTime,\n" +
-                    "\ts.name as name,\n" +
-                    "\ts.age as age,\n" +
-                    "\ts.address as address,\n" +
-                    "\ts.major as major,\n" +
-                    "\ts.university as university,\n" +
-                    "\ts.hobby as hobby,\n" +
-                    "\tr.career as career,\n" +
-                    "\tr.id as rId");
-            sqlBuilder.append("FROM\n" +
-                    "\tapplication a\n" +
-                    "\tJOIN student s ON a.user_id = s.user_id\n" +
-                    "\tJOIN recruitment r ON r.id = a.recruitment_id  ");
-            sqlBuilder.append("WHERE\n" +
-                    "\ta.a_status in (1,5,3,7) AND r.company_id = #{companyId}");
+            sqlBuilder.append("SELECT a.a_id as id, a.user_id as userId,a.a_status as sta,a.reply as reply,a.interview_place as interviewPlace,a.interview_time as interviewTime,s.name as name,s.age as age,s.address as address,s.major as major,s.university as university,s.hobby as hobby,r.career as career,r.id as rId");
+            sqlBuilder.append(" FROM application a JOIN student s ON a.user_id = s.user_id JOIN recruitment r ON a.recruitment_id = r.id ");
+            sqlBuilder.append(" WHERE a.a_status in (1,5,3,7) AND r.company_id = #{companyId}");
 
             if (!career.equals("")) {
-                sqlBuilder.append("AND r.company_id = #{career} ");
+                sqlBuilder.append(" AND r.company_id = #{career}");
             }
-
 
             return sqlBuilder.toString();
 
@@ -62,32 +43,13 @@ public interface ApplicationDao extends BaseMapper<Application> {
     class MyProvider1{
         public String getAllMethod1(String career,String companyId) {
             StringBuilder sqlBuilder = new StringBuilder();
-            sqlBuilder.append("SELECT\n" +
-                    "\ta.a_id as id,\n" +
-                    "\ta.user_id as userId,\n" +
-                    "\ta.a_status as 'status',\n" +
-                    "\ta.reply as reply,\n" +
-                    "\ta.interview_place as interviewPlace,\n" +
-                    "\ta.interview_time as interviewTime,\n" +
-                    "\ts.name as name,\n" +
-                    "\ts.age as age,\n" +
-                    "\ts.address as address,\n" +
-                    "\ts.major as major,\n" +
-                    "\ts.university as university,\n" +
-                    "\ts.hobby as hobby,\n" +
-                    "\tr.career as career,\n" +
-                    "\tr.id as rId");
-            sqlBuilder.append("FROM\n" +
-                    "\tapplication a\n" +
-                    "\tJOIN student s ON a.user_id = s.user_id\n" +
-                    "\tJOIN recruitment r ON r.id = a.recruitment_id  ");
-            sqlBuilder.append("WHERE\n" +
-                    "\ta.a_status in (1,5,3,7)");
+            sqlBuilder.append("SELECT a.a_id as id, a.user_id as userId,a.a_status as sta,a.reply as reply,a.interview_place as interviewPlace,a.interview_time as interviewTime,s.name as name,s.age as age,s.address as address,s.major as major,s.university as university,s.hobby as hobby,r.career as career,r.id as rId");
+            sqlBuilder.append(" FROM application a JOIN student s ON a.user_id = s.user_id JOIN recruitment r ON a.recruitment_id = r.id ");
+            sqlBuilder.append(" WHERE a.a_status in (1,5,3,7) AND r.company_id = #{companyId}");
 
             if (!career.equals("")) {
-                sqlBuilder.append("AND r.company_id = #{career} ");
+                sqlBuilder.append(" AND r.company_id = #{career}");
             }
-
 
             return sqlBuilder.toString();
 

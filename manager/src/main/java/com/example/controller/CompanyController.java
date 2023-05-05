@@ -62,7 +62,8 @@ public class CompanyController {
 //            return Result.error(Constants.CODE_400,"企业正在审核中");
 //        }
         company.setStatus(0);
-        boolean bool = companyService.save(company);
+        company.setId(StpUtil.getLoginIdAsInt());
+        boolean bool = companyService.saveOrUpdate(company);
         return bool?Result.success():Result.error();
     }
 

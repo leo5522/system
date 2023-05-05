@@ -1,12 +1,15 @@
 package com.example.controller;
 
 import cn.hutool.json.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.common.Result;
 import com.example.domain.Application;
 import com.example.service.ApplicationService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,10 +44,12 @@ public class ApplicationController {
      */
     @PostMapping("/agree")
     public Result agree(@RequestBody Application application){
-        Application app = applicationService.getById(application.getaId());
-        app.setaStatus(1);
-        app.setReply(application.getReply());
-        applicationService.updateById(app);
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("a_id",application.getaId());
+        Application one = applicationService.getOne(wrapper);
+        one.setaStatus(1);
+        one.setReply(application.getReply());
+        applicationService.updateById(one);
         return Result.success();
     }
 
@@ -56,7 +61,9 @@ public class ApplicationController {
      */
     @PostMapping("/refuse")
     public Result refuse(@RequestBody Application application){
-        Application app = applicationService.getById(application.getaId());
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("a_id",application.getaId());
+        Application app = applicationService.getOne(wrapper);
         app.setaStatus(2);
         applicationService.updateById(app);
         return Result.success();
@@ -70,7 +77,8 @@ public class ApplicationController {
      * @return
      */
     @PostMapping("/appointment")
-    public Result appointment(@RequestBody Application application){
+    public Result appointment(@RequestBody Application application) throws ParseException {
+        application.setInterviewTime(application.getInterviewTime());
         Application app = applicationService.getById(application.getaId());
         app.setaStatus(5);
         app.setInterviewPlace(application.getInterviewPlace());
@@ -80,6 +88,20 @@ public class ApplicationController {
         return Result.success();
     }
 
+
+
+    /**
+     * pass 5
+     * @param application
+     * @return
+     */
+    @PostMapping("/pass")
+    public Result pass(@RequestBody Application application) throws ParseException {
+        Application app = applicationService.getById(application.getaId());
+        app.setaStatus(6);
+        applicationService.updateById(app);
+        return Result.success();
+    }
 
 
 

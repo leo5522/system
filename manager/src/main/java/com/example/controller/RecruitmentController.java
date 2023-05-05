@@ -1,13 +1,16 @@
 package com.example.controller;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.CompanyRecruitmentVo;
 import com.example.common.Constants;
 import com.example.common.Result;
+import com.example.domain.Company;
 import com.example.domain.Recruitment;
+import com.example.service.CompanyService;
 import com.example.service.impl.RecruitmentServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,10 @@ import javax.annotation.Resource;
 public class RecruitmentController {
     @Resource
     private RecruitmentServiceImpl recruitmentService;
+
+    @Resource
+    private CompanyService companyService;
+
 
     @GetMapping("/getall")
     public IPage<CompanyRecruitmentVo> getAllRecruitment(@RequestParam(value = "career",required = false) String career,
@@ -66,15 +73,20 @@ public class RecruitmentController {
      */
     @PostMapping("/save")
     public Result save (@RequestBody Recruitment recruitment){
-        //TODO：替换company_id
         if (!(null == recruitment.getId())){
             boolean bool = recruitmentService.updateById(recruitment);
             return bool?Result.success():Result.error();
         }
         recruitment.setStatus(1);
-        recruitment.setCompanyId(2);
-        recruitment.setCompanyName("1229 company");
-        boolean bool = recruitmentService.save(recruitment);
+        int companyId = StpUtil.getLoginIdAsInt();
+        Company byId = companyService.getById(companyId);
+        if (byId.getStatus() != 2 ){
+            return Result.error("400","企业未认证");
+        }
+
+        recruitment.setCompanyId(StpUtil.getLoginIdAsInt());
+        recruitment.setCompanyName(byId.getCompanyName());
+        boolean bool = recruitmentService.saveOrUpdate(recruitment);
         return bool?Result.success():Result.error();
     }
 
@@ -103,7 +115,6 @@ public class RecruitmentController {
 
     @GetMapping("/all")
     public IPage<Recruitment> all (@RequestParam("pageNum") int pageNum,@RequestParam("pageSize") int pageSize,@RequestParam("career") String career,@RequestParam("jobtype") String jobtype ){
-        //TODO：替换company_id
         Recruitment recruitment = new Recruitment();
         IPage<Recruitment> page = recruitmentService.getRecruitmentServerList(jobtype,career,pageNum, pageSize);
         return page;

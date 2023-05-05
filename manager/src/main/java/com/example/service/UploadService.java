@@ -3,11 +3,13 @@ package com.example.service;
 import cn.hutool.core.date.DateTime;
 import com.aliyun.oss.OSSClient;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
 
+@Service
 public class UploadService {
 
     private static final int MAX_RETRY_TIMES = 3; // 最大重试次数

@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -60,7 +61,8 @@ public class UserController {
         wrapper1.eq("user_id",one.getId());
         Company one1 = companyService.getOne(wrapper1);
         StpUtil.login(one1.getId());
-        return Result.success();
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return Result.success(tokenInfo);
 
     }
 
