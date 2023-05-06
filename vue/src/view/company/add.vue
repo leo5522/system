@@ -309,7 +309,7 @@ export default {
               this.form.companyName = res.data.companyName;
             } else {
               this.form = res.data;
-              this.form['industryShow'] = '';
+              this.form['industryShow'] = res.data.industry * 1;
               this.form['logoShow'] = [
                 {
                   url: 'http://localhost:9090/upload/' + this.form.logo,
