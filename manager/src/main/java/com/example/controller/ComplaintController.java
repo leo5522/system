@@ -42,7 +42,10 @@ public class ComplaintController {
     @PostMapping("/reply")
     @SaCheckLogin
     public Result reply (@RequestBody Complaint complaint){
-        complaintService.updateById(complaint);
+        Complaint byId = complaintService.getById(complaint.getId());
+        byId.setCompanyReply(complaint.getCompanyReply());
+        byId.setStatus(2);
+        complaintService.updateById(byId);
         return Result.success();
     }
 }

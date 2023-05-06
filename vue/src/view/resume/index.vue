@@ -64,7 +64,7 @@
         :total="pagination.total"
       />
     </div>
-    <el-dialog :visible.sync="dialogVisible" title="求职信息" width="20%">
+    <el-dialog :visible.sync="dialogVisible" title="简历信息" width="20%">
       <div class="jobhunt-details">
         <div class="row">
           <div class="label">姓名：</div>

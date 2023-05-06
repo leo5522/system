@@ -13,7 +13,7 @@
           class="input input-content"
           placeholder="请输入职位名称"
         />
-        <el-select size="normal" style="width: 250px; margin-right: 10px" class="input" v-model="jobtype" placeholder="请选择职位分类">
+        <el-select size="normal" clearable style="width: 250px; margin-right: 10px" class="input" v-model="jobtype" placeholder="请选择职位分类">
           <el-option v-for="item in jobtypeList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button size="normal" type="primary" @click="reloadTable">搜索</el-button>

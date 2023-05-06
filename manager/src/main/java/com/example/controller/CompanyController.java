@@ -56,7 +56,6 @@ public class CompanyController {
     @PostMapping("/save")
     @SaCheckLogin
     public Result save(@RequestBody Company company){
-        company.setUserId(StpUtil.getLoginIdAsInt());
 //        Company byId = companyService.getById(company.getUserId());
 //        if (byId.getStatus() == 0){
 //            return Result.error(Constants.CODE_400,"企业正在审核中");

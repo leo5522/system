@@ -2,7 +2,7 @@
   <div class="content">
     <div class="top-content">
       <div class="search">
-        <el-select size="normal" style="width: 250px; margin-right: 10px" class="input" v-model="status" placeholder="请选择投诉状态">
+        <el-select size="normal" clearable style="width: 250px; margin-right: 10px" class="input" v-model="status" placeholder="请选择投诉状态">
           <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button size="normal" type="primary" @click="reloadTable">搜索</el-button>

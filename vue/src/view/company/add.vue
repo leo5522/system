@@ -306,6 +306,7 @@ export default {
           if (res.data && Object.keys(res.data).length > 0) {
             if (res.data.status == 1 || res.data.status == 3) {
               this.disabled = false;
+              this.form.companyName = res.data.companyName;
             } else {
               this.form = res.data;
               this.form['industryShow'] = '';

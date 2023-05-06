@@ -107,7 +107,7 @@
                 @click="handleRegister"
                 size="small"
               >
-                登 录
+                注 册
               </el-button>
             </div>
           </el-form>
@@ -179,11 +179,16 @@ export default {
         password: this.form.password,
       };
       login(data).then((res) => {
-        if ((res.code = 200)) {
+        if (res.code == '200') {
           localStorage.setItem('tokenName', res.data.tokenName);
           localStorage.setItem('tokenValue', res.data.tokenValue);
           this.$router.push({
             path: '/chomefirst',
+          });
+        } else {
+          this.$message({
+            message: res.msg,
+            type: 'error',
           });
         }
       });
@@ -197,13 +202,18 @@ export default {
         password2: this.registerForm.confirmPwd,
       };
       register(data).then((res) => {
-        if ((res.code = 200)) {
+        if (res.code == '200') {
           this.$message({
             message: '注册成功',
             type: 'success',
           });
           this.loginTab = 'password';
           this.$refs['registerForm'].resetFields();
+        } else {
+          this.$message({
+            message: res.msg,
+            type: 'error',
+          });
         }
       });
     },
@@ -221,8 +231,8 @@ export default {
   background-size: cover;
 }
 .login-content {
-  width: 35%;
-  height: 60vh;
+  width: 650px;
+  height: 500px;
   background-color: #e7e8eb;
   padding: 50px;
   position: absolute;

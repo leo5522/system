@@ -93,6 +93,9 @@
         </div>
       </el-dialog>
     </div>
+    <div v-if="cards && cards.length == 0" style="display: flex">
+      <img style="width: 800px; margin: 20px auto" src="../../assets/no-data.png" alt="" />
+    </div>
     <div class="pagination-wrapper">
       <el-pagination
         @size-change="handleSizeChange"
